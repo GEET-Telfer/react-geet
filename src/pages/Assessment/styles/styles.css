@@ -1,0 +1,75 @@
+.assessment-question-label {
+  margin: 0 0.5em 0 0.5em;
+}
+input[type="radio"] {
+  margin: 0 0.5em 0 0.5em;
+}
+.radio-questions input[type="radio"] {
+  display: inline-block;
+  border: 2px solid #434343;
+}
+.radio-questions input[type="radio"]:hover {
+  background-color: #434343;
+}
+.radio-questions input[type="radio"]:checked {
+  background-color: #434343;
+}
+input[type="radio"][id^='scoring'] {
+  width: 2.5em !important;
+  height: 2.5em !important;
+  vertical-align: bottom;
+}
+.btn-side-nav {
+  width: 100%;
+}
+#Commitment {
+  background-color: #633C99;
+  color: whitesmoke;
+}
+#Expertise {
+  background-color: #5BBE79;
+  color: whitesmoke;
+}
+#Resources {
+  background-color: #68C0E9;
+  color: whitesmoke;
+}
+#Design {
+  background-color: #F250A7;
+  color: whitesmoke;
+}
+#Development {
+  background-color: #A8D46F;
+  color: whitesmoke;
+}
+#Delivery {
+  background-color: #F8AD56;
+  color: whitesmoke;
+}
+#Evaluation {
+  background-color: #4D93C9;
+  color: whitesmoke;
+}
+.show {
+  display: block;
+}
+.hide {
+  display: none;
+}
+.answered {
+  opacity: 30%;
+}
+.btn-user-response {
+  border: 2px solid black;
+  border-color: #a9343a !important;
+  background-color: white !important;
+  color: #a9343a !important;
+}
+.btn-user-response:hover {
+  background-color: #a9343a !important;
+  color: white !important;
+}
+.btn-user-response:active {
+  background-color: #a9343a !important;
+  color: white !important;
+}

@@ -1,0 +1,118 @@
+@smRadioBtnSize: 1.5em;
+@mdRadioBtnSize: 2em;
+@lgRadioBtnSize: 2.5em;
+@xlRadioBtnSize: 3.5em;
+
+@radioBtnMargin: 0 .5em 0 .5em;
+// background color
+@radioBackgroundColorDefault: #D9D9D9;
+@radioBorderColor: #434343;
+@radioBackgroundColorHovered: #434343;
+@radioBackgroundColorClicked: #434343;
+
+
+@colorUOttawa: #a9343a;
+
+// border
+@radioBorderDefault: 2px solid @radioBorderColor;
+
+// assessment side button
+@bgColorCommitment: #633C99;
+@bgColorExpertise: #5BBE79;
+@bgColorResources: #68C0E9;
+@bgColorDesign: #F250A7;
+@bgColorDevelopment: #A8D46F;
+@bgColorDelivery: #F8AD56;
+@bgColorEvaluation: #4D93C9;
+
+.assessment-question-label {
+  margin: @radioBtnMargin
+}
+
+input[type="radio"] {
+  margin: @radioBtnMargin;
+}
+
+.radio-questions input[type="radio"] {
+  display: inline-block;
+  border: @radioBorderDefault;
+  &:hover {
+    background-color: @radioBackgroundColorHovered;
+  }
+  &:checked {
+    background-color: @radioBackgroundColorClicked;
+  }
+}
+
+
+input[type="radio"][id^='scoring'] {
+  width: @lgRadioBtnSize !important;
+  height: @lgRadioBtnSize !important;
+  vertical-align: bottom;
+}
+
+.btn-side-nav {
+  width: 100%
+}
+
+#Commitment {
+  background-color: @bgColorCommitment;
+  color: whitesmoke
+}
+
+#Expertise {
+  background-color: @bgColorExpertise;
+  color: whitesmoke
+}
+
+#Resources {
+  background-color: @bgColorResources;
+  color: whitesmoke
+}
+
+#Design {
+  background-color: @bgColorDesign;
+  color: whitesmoke
+}
+
+#Development {
+  background-color: @bgColorDevelopment;
+  color: whitesmoke
+}
+
+#Delivery {
+  background-color: @bgColorDelivery;
+  color: whitesmoke
+}
+
+#Evaluation {
+  background-color: @bgColorEvaluation;
+  color: whitesmoke
+}
+
+.show {
+  display: block;
+}
+
+.hide {
+  display: none;
+}
+
+.answered {
+  opacity: 30%;
+}
+
+.btn-user-response {
+  border: 2px solid black;
+  border-color: @colorUOttawa !important;
+  background-color: white !important;
+  color : @colorUOttawa !important;
+  &:hover {
+    background-color: @colorUOttawa !important;
+    color : white !important;
+  }
+  &:active {
+    background-color: @colorUOttawa !important;
+    color : white !important;
+  }
+}

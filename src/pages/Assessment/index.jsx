@@ -1,18 +1,24 @@
-import { useState, useEffect, Fragment, useRef } from 'react';
-import { Instruction, QuestionList, Result } from './components';
+import { useState } from 'react';
+import { Instruction, MetaQuestionList, Result } from './components';
+import Container from 'react-bootstrap/Container';
+import "./styles/styles.css";
+import { ProgressCtxProvider } from '../../context/ProgressContext';
 
 export default function Asssessment() {
 
 
-    const toggleInstructionVisibility = useRef(true);
-    const toggleQuestionListVisibility = useRef(false);
-    const toggleResultVisibility = useRef(false);
+    const [flagDisplayInstruction, setFlagDisplayInstruction] = useState(false);
+    const [flagDisplayQuestionList, setFlagDisplayQuestionList] = useState(true);
+    const [flagDisplayResult, setFlagDisplayResult] = useState(false);
+
 
     return (
-        <Fragment>
-            <Instruction visibilty={toggleInstructionVisibility} />
-            <QuestionList visibilty={toggleQuestionListVisibility} />
-            <Result visibilty={toggleResultVisibility} />
-        </Fragment>
+        <Container>
+            <ProgressCtxProvider>
+                <Instruction visibility={flagDisplayInstruction} />
+                <MetaQuestionList visibility={flagDisplayQuestionList} />
+                <Result visibility={flagDisplayResult} />
+            </ProgressCtxProvider>
+        </Container>
     )
 }
