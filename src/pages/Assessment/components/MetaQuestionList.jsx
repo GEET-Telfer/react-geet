@@ -28,6 +28,7 @@ export default function MetaQuestionList(props) {
 
     useEffect(() => {
         // check cookie
+<<<<<<< HEAD
         // const loadFromCookies = Object.keys(cookies)
         //     .filter((key) => key.startsWith("component"))
         //     .reduce((res, key) => {
@@ -67,6 +68,46 @@ export default function MetaQuestionList(props) {
             setToggleQuestions(Object.keys(questions));
             setQuestions(questions);
         })
+=======
+        const loadFromCookies = Object.keys(cookies)
+            .filter((key) => key.startsWith("component"))
+            .reduce((res, key) => {
+                let key_ = key.replace("component-", "");
+                res[key_] = cookies[key];
+                return res;
+            }, {});
+        // if component cookies have content, load the question lists from cookie
+        if (Object.keys(loadFromCookies).length !== 0) {
+            setToggleQuestions(Object.keys(loadFromCookies));
+            setQuestions(loadFromCookies);
+            console.log("Load from cookie");
+            return;
+        }
+
+        // fetch assessment questions from redis server
+        axios.get(`http://localhost:5005/assessment/fetch-all`)
+            .then((res) => {
+                const questions = _.groupBy(res.data.data, 'component_abbrev');
+                // trim duplicated values in the questions objects
+                for (const key in questions) {
+                    questions[key] = questions[key].map((question) => {
+                        question = _.omit(question, ['component', 'component_abbrev']);
+                        return question;
+                    })
+                }
+                // set cookies for each questions with ttl of 1 minute.
+                for (const key in questions) {
+                    setCookie(`component-${key}`, JSON.stringify(questions[key]),
+                        {
+                            path: "/",
+                            expires: new Date(Date.now() + 30 * 60 * 1000),
+                            httpOnly: false
+                        });
+                }
+                setToggleQuestions(Object.keys(questions));
+                setQuestions(questions);
+            })
+>>>>>>> e902e4f (migrate assessment question modules from vanilla js to react)
             .catch((err) => {
                 console.error(err);
             });
@@ -113,18 +154,32 @@ export default function MetaQuestionList(props) {
         }
 
         const data = {
+<<<<<<< HEAD
             user_email: userEmailRef.current.value,
             user_response: JSON.stringify(user_response),
             score: score.toFixed(2),
             report: JSON.stringify(report)
+=======
+            user_email : userEmailRef.current.value,
+            user_response : JSON.stringify(user_response),
+            score : score.toFixed(2),
+            report : JSON.stringify(report)
+>>>>>>> e902e4f (migrate assessment question modules from vanilla js to react)
         };
 
 
         axios.post("http://localhost:5005/assessment/submit-user-response", data)
+<<<<<<< HEAD
             .then((res) => {
                 console.log(res);
                 // clearProgress();
             }).catch(console.error);
+=======
+        .then((res) => {
+            console.log(res);
+            // clearProgress();
+        }).catch(console.error);
+>>>>>>> e902e4f (migrate assessment question modules from vanilla js to react)
     }
     return (
         <Container className={show} >
@@ -161,12 +216,21 @@ export default function MetaQuestionList(props) {
                                 Please fill your email to receive feedback.
                             </Form.Text>
                         </Form.Group>
+<<<<<<< HEAD
                         <Button
                             variant={"blank"}
                             className={"btn-user-response float-end"}
                             onClick={handleUserResponseSubmission}>
                             Submit
                         </Button>
+=======
+                        <Button 
+                        variant={"blank"}
+                        className={"btn-user-response float-end"}
+                        onClick={handleUserResponseSubmission}>
+                            Submit
+                            </Button>
+>>>>>>> e902e4f (migrate assessment question modules from vanilla js to react)
                     </Col>
                 </Row>
             }
