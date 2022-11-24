@@ -6,69 +6,25 @@ import QuestionList from './QuestionList';
 import QuestionButton from './QuestionButton';
 import { Col, Container, Row } from 'react-bootstrap';
 import { ProgressCtx } from '../../../context/ProgressContext';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
 
 export default function MetaQuestionList(props) {
-    const { visibility } = props;
-
-    const toShow = (visibility) => visibility ? "show" : "hide";
-
-    const { progress, calComponentScore, calOverallSore, mapScoreToLabel, clearProgress } = useContext(ProgressCtx);
-
-    const [show, setShow] = useState(toShow(visibility));
-
-    const [questions, setQuestions] = useState([]);
-    const questionSizeRef = useRef(0);
-    const userEmailRef = useRef("");
-
-    const [toggleQuestions, setToggleQuestions] = useState([]);
+    const { hasConsent, hasComplete, setComplete } = props;
 
     const [cookies, setCookie] = useCookies();
 
+    const toShow = (visibility) => visibility ? "show" : "hide";
+
+    const { progress } = useContext(ProgressCtx);
+
+    // useState
+    const [questions, setQuestions] = useState([]);
+    const [toggleQuestions, setToggleQuestions] = useState([]);
+
+    // useRef
+    const questionSizeRef = useRef(0);
+
     useEffect(() => {
         // check cookie
-<<<<<<< HEAD
-        // const loadFromCookies = Object.keys(cookies)
-        //     .filter((key) => key.startsWith("component"))
-        //     .reduce((res, key) => {
-        //         let key_ = key.replace("component-", "");
-        //         res[key_] = cookies[key];
-        //         return res;
-        //     }, {});
-        // // if component cookies have content, load the question lists from cookie
-        // if (Object.keys(loadFromCookies).length !== 0) {
-        //     setToggleQuestions(Object.keys(loadFromCookies));
-        //     setQuestions(loadFromCookies);
-        //     console.log("Load from cookie");
-        //     return;
-        // }
-
-        // fetch assessment questions from redis server
-        const fetchAllQuestions = async () => await axios.get(`http://localhost:5005/assessment/fetch-all`);
-
-        fetchAllQuestions().then((res) => {
-            const questions = _.groupBy(res.data.data, 'component_abbrev');
-            // trim duplicated values in the questions objects
-            for (const key in questions) {
-                questions[key] = questions[key].map((question) => {
-                    question = _.omit(question, ['component', 'component_abbrev']);
-                    return question;
-                })
-            }
-            // set cookies for each questions with ttl of 1 minute.
-            for (const key in questions) {
-                setCookie(`component-${key}`, JSON.stringify(questions[key]),
-                    {
-                        path: "/",
-                        expires: new Date(Date.now() + 30 * 60 * 1000),
-                        httpOnly: false
-                    });
-            }
-            setToggleQuestions(Object.keys(questions));
-            setQuestions(questions);
-        })
-=======
         const loadFromCookies = Object.keys(cookies)
             .filter((key) => key.startsWith("component"))
             .reduce((res, key) => {
@@ -107,11 +63,31 @@ export default function MetaQuestionList(props) {
                 setToggleQuestions(Object.keys(questions));
                 setQuestions(questions);
             })
->>>>>>> e902e4f (migrate assessment question modules from vanilla js to react)
             .catch((err) => {
                 console.error(err);
             });
     }, []);
+
+    useEffect(() => {
+        let count = 0;
+        _.forEach(questions, (questionArr) => count += questionArr.length);
+        questionSizeRef.current = count;
+
+        // if the user answered all the questions, 
+        if (Object.keys(progress).length === questionSizeRef.current) {
+            // setShow("hide");
+            setComplete(true);
+        }
+    }, [questions, progress]);
+
+    useEffect(() => {
+        // check if the assessment is completed
+        setComplete(Object.keys(progress).length === questionSizeRef.current);
+    }, [hasComplete]);
+
+    useEffect(() => {
+        console.log({ hasConsent });
+    }, [hasConsent]);
 
     const handleQuestionButton = (event) => {
         const id = event.target.id;
@@ -124,65 +100,8 @@ export default function MetaQuestionList(props) {
         }
     }
 
-    useEffect(() => {
-        let count = 0;
-        _.forEach(questions, (questionArr) => count += questionArr.length);
-        questionSizeRef.current = count;
-
-        // if the user answered all the questions, 
-        if (Object.keys(progress).length === questionSizeRef.current) {
-            // setShow("hide");
-        }
-    }, [questions, progress])
-
-    const handleUserResponseSubmission = () => {
-        // console.log(progress);
-
-        let user_response = {};
-
-        user_response = _.groupBy(progress, 'component');
-
-        const scores = calComponentScore(progress);
-
-        const overallScore = calOverallSore(scores);
-        const score = overallScore.sum / overallScore.size;
-
-        let report = {};
-        report.overall = mapScoreToLabel(score);
-        for (let key in scores) {
-            report[key] = mapScoreToLabel(scores[key]);
-        }
-
-        const data = {
-<<<<<<< HEAD
-            user_email: userEmailRef.current.value,
-            user_response: JSON.stringify(user_response),
-            score: score.toFixed(2),
-            report: JSON.stringify(report)
-=======
-            user_email : userEmailRef.current.value,
-            user_response : JSON.stringify(user_response),
-            score : score.toFixed(2),
-            report : JSON.stringify(report)
->>>>>>> e902e4f (migrate assessment question modules from vanilla js to react)
-        };
-
-
-        axios.post("http://localhost:5005/assessment/submit-user-response", data)
-<<<<<<< HEAD
-            .then((res) => {
-                console.log(res);
-                // clearProgress();
-            }).catch(console.error);
-=======
-        .then((res) => {
-            console.log(res);
-            // clearProgress();
-        }).catch(console.error);
->>>>>>> e902e4f (migrate assessment question modules from vanilla js to react)
-    }
     return (
-        <Container className={show} >
+        <div className={toShow(hasConsent & hasComplete)} >
             <Row className="justify-content-md-center">
                 <Col md={{ offset: 2, span: 2 }}>
                     {
@@ -204,36 +123,6 @@ export default function MetaQuestionList(props) {
                     }
                 </Col>
             </Row>
-            {
-                show === "show" &&
-                <Row className="justify-content-md-center">
-                    <Col md={{ offset: 1, span: 2 }} />
-                    <Col>
-                        <h1 align="center">Feedback</h1>
-                        <Form.Group className="mb-3" controlId="formBasicEmail">
-                            <Form.Control type="email" ref={userEmailRef} placeholder="Enter email" />
-                            <Form.Text className="text-muted">
-                                Please fill your email to receive feedback.
-                            </Form.Text>
-                        </Form.Group>
-<<<<<<< HEAD
-                        <Button
-                            variant={"blank"}
-                            className={"btn-user-response float-end"}
-                            onClick={handleUserResponseSubmission}>
-                            Submit
-                        </Button>
-=======
-                        <Button 
-                        variant={"blank"}
-                        className={"btn-user-response float-end"}
-                        onClick={handleUserResponseSubmission}>
-                            Submit
-                            </Button>
->>>>>>> e902e4f (migrate assessment question modules from vanilla js to react)
-                    </Col>
-                </Row>
-            }
-        </Container>
+        </div>
     )
 }

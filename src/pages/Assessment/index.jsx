@@ -3,21 +3,26 @@ import { Instruction, MetaQuestionList, Result } from './components';
 import Container from 'react-bootstrap/Container';
 import "./styles/styles.css";
 import { ProgressCtxProvider } from '../../context/ProgressContext';
-
+import { useCookies } from 'react-cookie';
 export default function Asssessment() {
+    const [cookies, setCookie] = useCookies();
 
-
-    const [flagDisplayInstruction, setFlagDisplayInstruction] = useState(false);
-    const [flagDisplayQuestionList, setFlagDisplayQuestionList] = useState(true);
-    const [flagDisplayResult, setFlagDisplayResult] = useState(false);
-
+    const [consent, setConsent] = useState(cookies['assessment-consent']);
+    const [complete, setComplete] = useState(false);
+    const [result, setResult] = useState(null);
 
     return (
-        <Container>
+        <Container align="center">
             <ProgressCtxProvider>
-                <Instruction visibility={flagDisplayInstruction} />
-                <MetaQuestionList visibility={flagDisplayQuestionList} />
-                <Result visibility={flagDisplayResult} />
+                <Instruction hasConsent={consent} setConsent={setConsent} />
+                <MetaQuestionList
+                    hasConsent={consent}
+                    hasComplete={complete}
+                    setComplete={setComplete} />
+                <Result
+                    hasConsent={consent}
+                    hasComplete={complete}
+                    setComplete={setComplete} />
             </ProgressCtxProvider>
         </Container>
     )
