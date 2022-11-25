@@ -1,6 +1,6 @@
-import { Fragment, useState, useEffect, useContext, useRef } from 'react';
+import { useContext, useRef } from 'react';
 import { ProgressCtx } from '../../../context/ProgressContext';
-import { Col, Container, Row } from 'react-bootstrap';
+import { Col, Row } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import _ from 'lodash';
@@ -11,7 +11,7 @@ import ProgressBar from 'react-bootstrap/ProgressBar';
 export default function Result(props) {
 
     const { hasConsent, hasComplete, setComplete } = props;
-    const { height, width } = useWindowDimensions();
+    const { width } = useWindowDimensions();
 
     const { progress, calComponentScore, calOverallSore, mapScoreToLabel, clearProgress } = useContext(ProgressCtx);
 
@@ -43,6 +43,7 @@ export default function Result(props) {
         await axios.post("http://localhost:5005/assessment/submit-user-response", data)
             .then((res) => {
                 console.log(res);
+                // setComplete(false)
                 // clearProgress();
             }).catch(console.error);
 

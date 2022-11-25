@@ -1,4 +1,4 @@
-import { useState, useEffect, Fragment } from 'react';
+import { Fragment } from 'react';
 
 
 export default function Video(props) {
