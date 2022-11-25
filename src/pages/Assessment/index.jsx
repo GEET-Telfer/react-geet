@@ -9,21 +9,23 @@ export default function Asssessment() {
 
     const [consent, setConsent] = useState(cookies['assessment-consent']);
     const [complete, setComplete] = useState(false);
-    const [result, setResult] = useState(null);
 
     return (
-        <Container align="center">
-            <ProgressCtxProvider>
+        <ProgressCtxProvider>
+            <Container align="center">
                 <Instruction hasConsent={consent} setConsent={setConsent} />
                 <MetaQuestionList
                     hasConsent={consent}
                     hasComplete={complete}
                     setComplete={setComplete} />
+            </Container>
+            <Container align="center" className={"container-result"} fluid={"xxl"}>
                 <Result
                     hasConsent={consent}
                     hasComplete={complete}
                     setComplete={setComplete} />
-            </ProgressCtxProvider>
-        </Container>
+
+            </Container>
+        </ProgressCtxProvider>
     )
 }

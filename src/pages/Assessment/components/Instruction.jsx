@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Container } from 'react-bootstrap';
 import { useCookies } from 'react-cookie';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
@@ -12,9 +11,14 @@ export default function Instruction(props) {
     const [cookies, setCookie] = useCookies();
 
     // if the user hasn't read/ consent the instruction sheet, display the modal.
-    const [show, setShow] = useState((hasConsent === undefined));
+    const [show, setShow] = useState((hasConsent === undefined || hasConsent === false));
 
     const handleClose = (() => {
+        setShow(false);
+        setConsent(false);
+    });
+
+    const handleAgree = (() => {
         setShow(false);
         setConsent(true);
         setCookie('assessment-consent', true,
@@ -31,18 +35,21 @@ export default function Instruction(props) {
                 show={show}
                 onHide={handleClose}
                 size={'xl'}
-                fullscreen={'xxl-down'}
                 animation
             >
-                <Modal.Header align="center">
+                <Modal.Header align="center" closeButton>
                     <h1>Instructions & Privacy Consent</h1>
                 </Modal.Header>
                 <Modal.Body scrollable="true" >
                     <Article />
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="primary" onClick={handleClose}>
-                        I Agree & Close
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+
+                    <Button variant="primary" onClick={handleAgree}>
+                        I Agree 
                     </Button>
                 </Modal.Footer>
             </Modal>

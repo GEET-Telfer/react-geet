@@ -1,46 +1,46 @@
 import axios from 'axios';
 import { useState, useEffect, useContext, useRef } from 'react';
-import { useCookies } from 'react-cookie';
 import _ from 'lodash';
 import QuestionList from './QuestionList';
 import QuestionButton from './QuestionButton';
-import { Col, Container, Row } from 'react-bootstrap';
+import { Col, Row } from 'react-bootstrap';
 import { ProgressCtx } from '../../../context/ProgressContext';
 
 export default function MetaQuestionList(props) {
     const { hasConsent, hasComplete, setComplete } = props;
 
-    const [cookies, setCookie] = useCookies();
-
     const toShow = (visibility) => visibility ? "show" : "hide";
 
+    // Context
     const { progress } = useContext(ProgressCtx);
 
-    // useState
-    const [questions, setQuestions] = useState([]);
-    const [toggleQuestions, setToggleQuestions] = useState([]);
+    // State
+    const [questions, setQuestions] = useState({}); // question collection: [{componentA: {data}, componentB: {data}}]
+    const [toggleQuestions, setToggleQuestions] = useState({}); // componentLists
+    const [show, setShow] = useState(toShow(hasConsent && !hasComplete)); // toggle attribute to display MetaQuestionList
 
-    // useRef
+    // Ref
     const questionSizeRef = useRef(0);
 
     useEffect(() => {
-        // check cookie
-        const loadFromCookies = Object.keys(cookies)
-            .filter((key) => key.startsWith("component"))
-            .reduce((res, key) => {
-                let key_ = key.replace("component-", "");
-                res[key_] = cookies[key];
-                return res;
-            }, {});
-        // if component cookies have content, load the question lists from cookie
-        if (Object.keys(loadFromCookies).length !== 0) {
-            setToggleQuestions(Object.keys(loadFromCookies));
-            setQuestions(loadFromCookies);
-            console.log("Load from cookie");
-            return;
+        const loadFromLocalStorage = localStorage.getItem('assessment-question');
+
+        if (loadFromLocalStorage) {
+            const data = JSON.parse(loadFromLocalStorage);
+
+            const now = new Date();
+            // if localstorage data expires, clear and fetch data from gateway
+            if (now.getTime() > data.ttl) {
+                localStorage.removeItem('assessment-question');
+                console.log("Invalidate localstorage for new data");
+            } else {
+                setToggleQuestions(Object.keys(data.questions));
+                setQuestions(data.questions);
+                console.log("Load from LocalStorage");
+                return;
+            }
         }
 
-        // fetch assessment questions from redis server
         axios.get(`http://localhost:5005/assessment/fetch-all`)
             .then((res) => {
                 const questions = _.groupBy(res.data.data, 'component_abbrev');
@@ -51,17 +51,16 @@ export default function MetaQuestionList(props) {
                         return question;
                     })
                 }
-                // set cookies for each questions with ttl of 1 minute.
-                for (const key in questions) {
-                    setCookie(`component-${key}`, JSON.stringify(questions[key]),
-                        {
-                            path: "/",
-                            expires: new Date(Date.now() + 30 * 60 * 1000),
-                            httpOnly: false
-                        });
-                }
-                setToggleQuestions(Object.keys(questions));
-                setQuestions(questions);
+
+                const now = new Date()
+                const data = {
+                    questions,
+                    ttl: now.getTime() + 30 * 60 * 1000  // ttl: 30 min
+                };
+
+                localStorage.setItem('assessment-question', JSON.stringify(data));
+                setToggleQuestions(Object.keys(data.questions));
+                setQuestions(data.questions);
             })
             .catch((err) => {
                 console.error(err);
@@ -74,8 +73,8 @@ export default function MetaQuestionList(props) {
         questionSizeRef.current = count;
 
         // if the user answered all the questions, 
-        if (Object.keys(progress).length === questionSizeRef.current) {
-            // setShow("hide");
+        if (questionSizeRef.current !== 0 && Object.keys(progress).length === questionSizeRef.current) {
+            setShow("hide");
             setComplete(true);
         }
     }, [questions, progress]);
@@ -84,10 +83,6 @@ export default function MetaQuestionList(props) {
         // check if the assessment is completed
         setComplete(Object.keys(progress).length === questionSizeRef.current);
     }, [hasComplete]);
-
-    useEffect(() => {
-        console.log({ hasConsent });
-    }, [hasConsent]);
 
     const handleQuestionButton = (event) => {
         const id = event.target.id;
@@ -101,7 +96,7 @@ export default function MetaQuestionList(props) {
     }
 
     return (
-        <div className={toShow(hasConsent & hasComplete)} >
+        <div className={show} >
             <Row className="justify-content-md-center">
                 <Col md={{ offset: 2, span: 2 }}>
                     {
