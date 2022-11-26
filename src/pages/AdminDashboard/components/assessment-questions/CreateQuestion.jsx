@@ -1,4 +1,4 @@
-import { Fragment, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -45,7 +45,7 @@ export default function CreateQuestion(props) {
 
     // componentRef.current = event.target.value
     return (
-        <Fragment>
+        <div className={(activeKey === tag) ? "d-block" : "d-none"}>
             <Row>
                 <ToastContainer className="p-3" position={'middle-center'}>
                     <Toast onClose={() => setShow(false)} show={show} delay={3000} autohide>
@@ -53,7 +53,7 @@ export default function CreateQuestion(props) {
                     </Toast>
                 </ToastContainer>
             </Row>
-            <Row className={(activeKey === tag) ? "d-block" : "d-none"}>
+            <Row>
                 <Form>
                     <Form.Group as={Row} className="mb-3">
                         <Col xs={12}>
@@ -116,6 +116,6 @@ export default function CreateQuestion(props) {
                     </Form.Group>
                 </Form>
             </Row >
-        </Fragment>
+        </div>
     )
 }

@@ -1,4 +1,4 @@
-import { Fragment, useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { Row, Col, Form, Toast, Button } from 'react-bootstrap';
 import ToastContainer from 'react-bootstrap/ToastContainer';
 
@@ -47,8 +47,8 @@ export default function CreateMicroLearningModule(props) {
     }
 
     return (
-        <Fragment>
-            <Row className={(activeKey === tag) ? "d-block" : "d-none"}>
+        <div className={(activeKey === tag) ? "d-block" : "d-none"}>
+            <Row>
                 <ToastContainer className="p-3" position={'middle-center'}>
                     <Toast onClose={() => setShow(false)} show={show} delay={3000} autohide>
                         <Toast.Body>Micro Learning Module Is Added</Toast.Body>
@@ -113,6 +113,6 @@ export default function CreateMicroLearningModule(props) {
                     </Form.Group>
                 </Form>
             </Row>
-        </Fragment>
+        </div>
     )
 }

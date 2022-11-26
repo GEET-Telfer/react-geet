@@ -36,7 +36,7 @@ export default function ViewQuestions(props) {
     }, [needUpdate]);
 
     return (
-        <Fragment>
+        <div className={(activeKey === tag) ? "d-block" : "d-none"}>
             <Row>
                 <ToastContainer className="p-3" position={'middle-center'}>
                     <Toast onClose={() => setShowEdit(false)} show={showEdit} delay={3000} autohide>
@@ -51,7 +51,7 @@ export default function ViewQuestions(props) {
                     </Toast>
                 </ToastContainer>
             </Row>
-            <Row className={(activeKey === tag) ? "d-block" : "d-none"}>
+            <Row>
                 <Col xs={12}>
                     <Container>
                         {
@@ -66,9 +66,8 @@ export default function ViewQuestions(props) {
                         }
                     </Container>
                 </Col>
-
             </Row>
-        </Fragment>
+        </div>
 
     )
 }
