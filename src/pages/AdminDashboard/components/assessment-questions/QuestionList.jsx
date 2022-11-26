@@ -1,10 +1,9 @@
-import { Fragment, useEffect } from "react";
-import { Row, Container, Col, Button } from "react-bootstrap";
+import { Row, Container, Col } from "react-bootstrap";
 import QuestionRow from "./QuestionRow";
 
 
 export default function QuestionList(props) {
-    const { questions } = props;
+    const { questions, component } = props;
 
     return (
         <Row>
@@ -21,6 +20,7 @@ export default function QuestionList(props) {
                             <QuestionRow
                                 key={index}
                                 index={index}
+                                component={component}
                                 question={question} />
                         );
                     })

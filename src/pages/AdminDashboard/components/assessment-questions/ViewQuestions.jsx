@@ -21,12 +21,12 @@ export default function ViewQuestions(props) {
             .then((res) => {
                 const data = _.groupBy(res.data.data, 'component_abbrev');
                 // trim duplicated values in the questions objects
-                for (const key in data) {
-                    data[key] = data[key].map((question) => {
-                        question = _.omit(question, ['component', 'component_abbrev']);
-                        return question;
-                    })
-                }
+                // for (const key in data) {
+                //     data[key] = data[key].map((question) => {
+                //         question = _.omit(question, ['component', 'component_abbrev']);
+                //         return question;
+                //     })
+                // }
                 setQuestions(data);
                 console.log("Questions fetched");
             })
@@ -59,7 +59,7 @@ export default function ViewQuestions(props) {
                                 return (
                                     <Fragment key={component}>
                                         <h1>{component}</h1>
-                                        <QuestionList questions={questions[component]} />
+                                        <QuestionList component={component} questions={questions[component]} />
                                     </Fragment>
                                 );
                             })
