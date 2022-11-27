@@ -1,18 +1,25 @@
+import { useEffect } from "react";
 import Video from './components/Video';
 import Article from './components/Article';
-import {useParams} from "react-router-dom";
-// import { useEffect } from 'react';
+import axios from "axios";
 
-export default function MicroLearning() {
-    let { id } = useParams();
+export default function MicroLearning(props) {
 
-    // useEffect(() => {
-    //     console.log(id);
-    // }, []);
+    const searchParams = new URLSearchParams(document.location.search);
 
+    const id = searchParams.get('id');
+
+
+    useEffect(() => {
+        axios.get("/wp-json/course/v1/get", {id : id})
+        .then((res) => {
+            console.log(res.data);
+        })
+    });
+    
     return(
         <div align="center">
-            <h1>MicroLearning</h1>
+            <h1>MicroLearning Module {id}</h1>
             {
                 id ? <Video title={"placeholder"} videoSrc={"https://www.youtube.com/embed/r4E3fWZHeds"}/>
                 : <Video title={"placeholder"} videoSrc={"https://www.youtube.com/embed/lkIFF4maKMU"}/>

@@ -25,7 +25,7 @@ export default function CreateMicroLearningModule(props) {
         const data = {
             title: titleRef.current,
             video_link: videoLinkRef.current,
-            context: JSON.stringify(contextRef.current)
+            content: JSON.stringify(contextRef.current)
         };
 
         await axios.post("/wp-json/course/v1/add", data)
