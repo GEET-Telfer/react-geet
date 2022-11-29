@@ -21,14 +21,10 @@ export default function MicroLearningRow(props) {
 
   const handleDeleteCourse = async () => {
     axios
-      .post("/wp-json/course/v1/delete", { id: id })
-      .then(async (res) => {
-        await axios
-          .post("http://localhost:5005/admin/course/delete")
-          .then(() => {
-            alert("MicroLearning Module is Deleted");
-            setShow(false);
-          });
+      .post(`http://localhost:5005/admin/course/delete`, { id: id })
+      .then(() => {
+        alert("MicroLearning Module is Deleted");
+        setShow(false);
       })
       .catch((err) => {
         console.error(err);

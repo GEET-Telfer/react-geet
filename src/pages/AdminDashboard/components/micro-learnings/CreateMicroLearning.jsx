@@ -36,10 +36,9 @@ export default function CreateMicroLearningModule(props) {
       data.id = id;
 
       await axios
-        .post("/wp-json/course/v1/update", data)
-        .then(setShow(true))
+        .post(`http://localhost:5005/admin/course/update`, data)
         .then(() => {
-          axios.post("http://localhost:5005/admin/course/update");
+          setShow(true)
           // reset form
           titleRef.current.value = "";
           videoLinkRef.current.value = "";
@@ -47,13 +46,10 @@ export default function CreateMicroLearningModule(props) {
         });
     } else {
       await axios
-        .post("/wp-json/course/v1/add", data)
+        .post(`http://localhost:5005/admin/course/create`, data)
         .then(() => {
           // notify admin
           setShow(true);
-        })
-        .then(() => {
-          axios.post("http://localhost:5005/admin/course/delete");
           // reset form
           titleRef.current.value = "";
           videoLinkRef.current.value = "";
