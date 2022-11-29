@@ -22,8 +22,7 @@ export default function QuestionRow(props) {
         id: question.id,
       })
       .then(async () => {
-        setNeedUpdate(!needUpdate);
-        setShowDelete(true);
+        alert("Question Deleted")
         setShow(false);
       })
       .catch((err) => {
