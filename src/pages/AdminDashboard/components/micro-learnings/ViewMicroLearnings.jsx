@@ -1,12 +1,35 @@
-import {Fragment, useEffect, useState} from 'react';
-import { Row } from 'react-bootstrap';
+import { Fragment, useEffect, useState } from "react";
+import { Row, Col, Container } from "react-bootstrap";
+import axios from "axios";
+import MicroLearningRow from "./MicroLearningRow";
 
 export default function ViewMicroLearningModules(props) {
-    const {activeKey, tag} = props;
+  const { activeKey, tag } = props;
 
-    return(
-        <Row className={(activeKey === tag) ? "d-block" : "d-none"}>
-            ViewMicroLearningModules
-        </Row>
-    )
+  const [courseList, setCourseList] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://localhost:5005/course/fetch-all").then((res) => {
+      setCourseList(res.data.data);
+    });
+  }, []);
+
+  return (
+    <div className={activeKey === tag ? "d-block" : "d-none"}>
+      <Row>
+        <Col xs={12}>
+          <Container>
+            {Object.keys(courseList).map((index) => {
+              return (
+                <MicroLearningRow
+                  key={courseList[index].id}
+                  data={courseList[index]}
+                />
+              );
+            })}
+          </Container>
+        </Col>
+      </Row>
+    </div>
+  );
 }
