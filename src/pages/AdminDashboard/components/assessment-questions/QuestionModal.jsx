@@ -32,14 +32,16 @@ export default function QuestionModal(props) {
             hasNA: hasNARef.current.value === "on" ? 1 : 0
         };
 
-        axios.post("/wp-json/assessment/v1/update", data)
+        console.log(data);
+        
+        axios.post("http://localhost:5005/admin/assessment/update", data)
             .then(async () => {
-                await axios.post("http://localhost:5005/admin/assessment/update")
-                    .then(() => {
+                // await axios.post("http://localhost:5005/admin/assessment/update")
+                //     .then(() => {
                         setNeedUpdate(!needUpdate);
                         setShowEdit(true);
                         setModalShow(false);
-                    });
+                    // });
             }).catch((err) => {
                 console.error(err);
             })

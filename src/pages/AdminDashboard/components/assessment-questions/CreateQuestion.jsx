@@ -29,13 +29,13 @@ export default function CreateQuestion(props) {
             hasNA: hasNARef.current.value === 'on' ? 1 : 0
         };
 
-        await axios.post("/wp-json/assessment/v1/add", data)
+        await axios.post("http://localhost:5005/admin/assessment/create", data)
             .then(() => {
                 setShow(true);
-            })
-            .then(() => {
-                // remove redis cache for questions
-                axios.post("http://localhost:5005/admin/assessment/delete");
+                componentRef.current = "Commitment to Equity, Diversity and Inclusion";
+                descriptionRef.current = "";
+                hasNARef.current = false;
+                setScoring(5);
             })
             .catch((err) => {
                 console.error(err);
@@ -108,7 +108,7 @@ export default function CreateQuestion(props) {
                     </Form.Group>
                     <Form.Group as={Row} className="mb-3">
                         <Col xs={12}>
-                            <Button variant="primary" onClick={handleCreateQuestion}>
+                            <Button variant="primary" onClick={handleCreateQuestion} >
                                 Submit
                             </Button>
                         </Col>
