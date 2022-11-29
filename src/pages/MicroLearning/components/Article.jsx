@@ -13,9 +13,9 @@ Accumsan sit amet nulla facilisi morbi tempus. Condimentum lacinia quis vel eros
 
 
 
-export default function Article() {
-    
+export default function Article(props) {
+    const { content } = props;
     return(
-        <p>{placeholder}</p>
+        <p>{ content ? content : placeholder}</p>
     )
 }
