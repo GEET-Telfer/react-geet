@@ -9,7 +9,7 @@ export default function QuestionButton(props) {
         <div className="d-grid gap-1">
             <Button
                 id={description}
-                className={`mb-3`}
+                className={`mb-3 btn-side-nav`}
                 onClick={handleQuestionButton}
             >
                 {description}

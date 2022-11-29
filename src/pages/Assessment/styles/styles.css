@@ -20,6 +20,7 @@ input[type="radio"][id^='scoring'] {
   vertical-align: bottom;
 }
 .btn-side-nav {
+  min-width: 75px;
   width: 100%;
 }
 #Commitment {
