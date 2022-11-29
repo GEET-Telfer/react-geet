@@ -4,7 +4,6 @@ import axios from "axios";
 import MicroLearningRow from "./MicroLearningRow";
 
 export default function ViewMicroLearningModules(props) {
-  const { activeKey, tag } = props;
 
   const [courseList, setCourseList] = useState([]);
 
@@ -15,7 +14,7 @@ export default function ViewMicroLearningModules(props) {
   }, []);
 
   return (
-    <div className={activeKey === tag ? "d-block" : "d-none"}>
+    <div>
       <Row>
         <Col xs={12}>
           <Container>

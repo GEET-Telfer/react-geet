@@ -11,7 +11,6 @@ import 'bootstrap/dist/css/bootstrap.css'; // or include from a CDN
 import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
 
 export default function CreateQuestion(props) {
-    const { activeKey, tag } = props;
 
     // State
     const [scoring, setScoring] = useState(5);
@@ -45,7 +44,7 @@ export default function CreateQuestion(props) {
 
     // componentRef.current = event.target.value
     return (
-        <div className={(activeKey === tag) ? "d-block" : "d-none"}>
+        <div>
             <Row>
                 <ToastContainer className="p-3" position={'middle-center'}>
                     <Toast onClose={() => setShow(false)} show={show} delay={3000} autohide>

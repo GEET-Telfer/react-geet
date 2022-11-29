@@ -6,7 +6,6 @@ import QuestionList from './QuestionList';
 import { AdminQuestionCtx } from '../../../../context/AdminQuestionContext';
 
 export default function ViewQuestions(props) {
-    const { activeKey, tag } = props;
 
     const [questions, setQuestions] = useState({});
     
@@ -36,7 +35,7 @@ export default function ViewQuestions(props) {
     }, [needUpdate]);
 
     return (
-        <div className={(activeKey === tag) ? "d-block" : "d-none"}>
+        <div>
             <Row>
                 <ToastContainer className="p-3" position={'middle-center'}>
                     <Toast onClose={() => setShowEdit(false)} show={showEdit} delay={3000} autohide>

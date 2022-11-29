@@ -11,7 +11,7 @@ import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 export default function CreateMicroLearningModule(props) {
-  const { activeKey, tag, id, title, videoLink, content } = props;
+  const { id, title, videoLink, content } = props;
 
   const [show, setShow] = useState(false);
 
@@ -66,7 +66,7 @@ export default function CreateMicroLearningModule(props) {
   };
 
   return (
-    <div className={activeKey === tag ? "d-block" : "d-none"}>
+    <div>
       <Row>
         <ToastContainer className="p-3" position={"middle-center"}>
           <Toast
