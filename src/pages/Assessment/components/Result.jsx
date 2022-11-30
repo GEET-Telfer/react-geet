@@ -25,10 +25,6 @@ export default function Result(props) {
     // Ref
     const userEmailRef = useRef("");
 
-    // useEffect(() => {
-    //     console.log(scores);
-    // }, []);
-
     const handleUserResponseSubmission = async () => {
         let user_response = _.groupBy(progress, 'component');
         console.log(user_response);
@@ -40,10 +36,9 @@ export default function Result(props) {
             report: JSON.stringify(report)
         };
 
-        await axios.post("http://localhost:5005/assessment/submit-user-response", data)
+        await axios.post(`http://localhost:5005/assessment/submit-user-response`, data)
             .then((res) => {
                 console.log(res);
-                // setComplete(false)
                 // clearProgress();
             }).catch(console.error);
 
@@ -51,7 +46,6 @@ export default function Result(props) {
     }
 
     return (
-        //todo: fix responsive layout
         <Row xs={12} sm={12} 
         style={{marginLeft: 0.2 * width, width : 0.45 * width, marginRight: 0.2 * width}}> 
             {

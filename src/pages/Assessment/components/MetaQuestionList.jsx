@@ -24,6 +24,7 @@ export default function MetaQuestionList(props) {
   useEffect(() => {
     const loadFromLocalStorage = localStorage.getItem("assessment-question");
 
+    let flagFetch = false;
     if (loadFromLocalStorage) {
       const data = JSON.parse(loadFromLocalStorage);
 
@@ -32,6 +33,7 @@ export default function MetaQuestionList(props) {
       if (now.getTime() > data.ttl) {
         localStorage.removeItem("assessment-question");
         console.log("Invalidate localstorage for new data");
+        flagFetch = true;
       } else {
         setToggleQuestions(Object.keys(data.questions));
         setQuestions(data.questions);
@@ -39,32 +41,33 @@ export default function MetaQuestionList(props) {
         return;
       }
     }
+    if (flagFetch) {
+      axios
+        .get(`http://localhost:5005/assessment/fetch-all`)
+        .then((res) => {
+          const questions = _.groupBy(res.data.data, "component_abbrev");
+          // trim duplicated values in the questions objects
+          for (const key in questions) {
+            questions[key] = questions[key].map((question) => {
+              question = _.omit(question, ["component", "component_abbrev"]);
+              return question;
+            });
+          }
 
-    axios
-      .get(`http://localhost:5005/assessment/fetch-all`)
-      .then((res) => {
-        const questions = _.groupBy(res.data.data, "component_abbrev");
-        // trim duplicated values in the questions objects
-        for (const key in questions) {
-          questions[key] = questions[key].map((question) => {
-            question = _.omit(question, ["component", "component_abbrev"]);
-            return question;
-          });
-        }
+          const now = new Date();
+          const data = {
+            questions,
+            ttl: now.getTime() + 30 * 60 * 1000, // ttl: 30 min
+          };
 
-        const now = new Date();
-        const data = {
-          questions,
-          ttl: now.getTime() + 30 * 60 * 1000, // ttl: 30 min
-        };
-
-        localStorage.setItem("assessment-question", JSON.stringify(data));
-        setToggleQuestions(Object.keys(data.questions));
-        setQuestions(data.questions);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+          localStorage.setItem("assessment-question", JSON.stringify(data));
+          setToggleQuestions(Object.keys(data.questions));
+          setQuestions(data.questions);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
   }, []);
 
   useEffect(() => {
