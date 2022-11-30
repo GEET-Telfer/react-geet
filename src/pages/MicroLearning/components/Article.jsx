@@ -15,7 +15,10 @@ Accumsan sit amet nulla facilisi morbi tempus. Condimentum lacinia quis vel eros
 
 export default function Article(props) {
     const { content } = props;
+
+    const content_ = content ? content : placeholder;
+    
     return(
-        <p>{ content ? content : placeholder}</p>
+        <p dangerouslySetInnerHTML={{ __html: content_ }} ></p>
     )
 }

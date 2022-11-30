@@ -11,7 +11,6 @@ export default function MicroLearningSnippet(props) {
 
   const { id, title, video_link, content } = data;
 
-  const [parsedContent, setParsedContent] = useState("");
 
   useEffect(() => {
     if (!data ) {
@@ -38,13 +37,15 @@ export default function MicroLearningSnippet(props) {
           <div className="bg-light border">
             <p
               style={{
-                whiteSpace: "nowrap",
-                width: "100px",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
+                whiteSpace: "breakSpace",
+                  maxWidth: "100%",
+                  maxHeight : "100px",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  wordWrap: "break-word"
               }}
+              dangerouslySetInnerHTML={{ __html: content}}
             >
-              {parsedContent}
             </p>
           </div>
         </Stack>

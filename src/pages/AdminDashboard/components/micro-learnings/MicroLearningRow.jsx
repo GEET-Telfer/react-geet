@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Col, Row, Stack, Ratio, Button } from "react-bootstrap";
 import MicroLearningModal from "./MicroLearningModal";
 
@@ -12,12 +12,6 @@ export default function MicroLearningRow(props) {
   const [modalShow, setModalShow] = useState(false);
   const handleModalClose = () => setModalShow(false);
   const handleModalShow = () => setModalShow(true);
-
-  const [parsedContent, setParsedContent] = useState("");
-
-  useEffect(() => {
-    console.log(content);
-  }, []);
 
   const handleUpdateCourse = () => {
     handleModalShow();
@@ -62,15 +56,19 @@ export default function MicroLearningRow(props) {
             <div className="bg-light border">
               <b>Content:</b>
               <p
+                className={"micro-learning-content"}
                 style={{
-                  whiteSpace: "nowrap",
-                  width: "100px",
+                  whiteSpace: "breakSpace",
+                  maxWidth: "300px",
+                  maxHeight : "100px",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
+                  wordWrap: "break-word"
                 }}
+
+                dangerouslySetInnerHTML={{ __html: content}}
               >
-                {content}
-              </p>
+                </p>
             </div>
           </Stack>
         </Col>
