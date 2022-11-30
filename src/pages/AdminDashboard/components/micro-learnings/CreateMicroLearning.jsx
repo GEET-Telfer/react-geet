@@ -11,19 +11,13 @@ import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 export default function CreateMicroLearningModule(props) {
-  const { id, title, videoLink, content } = props;
+  const { title, videoLink, content } = props;
 
   const [show, setShow] = useState(false);
-
-  const isCreate = id ? false : true; //flag for create or edit
 
   const titleRef = useRef(title ? title : "");
   const videoLinkRef = useRef(videoLink ? videoLink : "");
   const contentRef = useRef(content ? content : "");
-
-  useEffect(() => {
-    console.log({ isCreate });
-  }, []);
 
   const handleCreateMicroLearningModule = async () => {
     let data = {
@@ -32,33 +26,19 @@ export default function CreateMicroLearningModule(props) {
       content: JSON.stringify(contentRef.current),
     };
 
-    if (id) {
-      data.id = id;
-
-      await axios
-        .post(`http://localhost:5005/admin/course/update`, data)
-        .then(() => {
-          setShow(true)
-          // reset form
-          titleRef.current.value = "";
-          videoLinkRef.current.value = "";
-          contentRef.current.value = "";
-        });
-    } else {
-      await axios
-        .post(`http://localhost:5005/admin/course/create`, data)
-        .then(() => {
-          // notify admin
-          setShow(true);
-          // reset form
-          titleRef.current.value = "";
-          videoLinkRef.current.value = "";
-          contentRef.current.value = "";
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    }
+    await axios
+      .post(`http://localhost:5005/admin/course/create`, data)
+      .then(() => {
+        // notify admin
+        setShow(true);
+        // reset form
+        titleRef.current.value = "";
+        videoLinkRef.current.value = "";
+        contentRef.current.value = "";
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
   return (
@@ -71,9 +51,7 @@ export default function CreateMicroLearningModule(props) {
             delay={3000}
             autohide
           >
-            <Toast.Body>
-              Micro Learning Module Is {isCreate ? "Added" : "Updated"}
-            </Toast.Body>
+            <Toast.Body>Micro Learning Module Is Added</Toast.Body>
           </Toast>
         </ToastContainer>
       </Row>
@@ -141,7 +119,7 @@ export default function CreateMicroLearningModule(props) {
                 variant="primary"
                 onClick={handleCreateMicroLearningModule}
               >
-                {isCreate ? "Submit" : "Edit"}
+                Submit
               </Button>
             </Col>
           </Form.Group>

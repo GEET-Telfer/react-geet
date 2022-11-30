@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Col, Row, Stack, Ratio, Button } from "react-bootstrap";
+import MicroLearningModal from "./MicroLearningModal";
 
 export default function MicroLearningRow(props) {
   const { data } = props;
@@ -8,6 +9,9 @@ export default function MicroLearningRow(props) {
   const { id, title, video_link, content } = data;
 
   const [show, setShow] = useState(true);
+  const [modalShow, setModalShow] = useState(false);
+  const handleModalClose = () => setModalShow(false);
+  const handleModalShow = () => setModalShow(true);
 
   const [parsedContent, setParsedContent] = useState("");
 
@@ -16,7 +20,7 @@ export default function MicroLearningRow(props) {
   }, []);
 
   const handleUpdateCourse = () => {
-    // TODO: redirect to CreateMicroLearning
+    handleModalShow();
   };
 
   const handleDeleteCourse = async () => {
@@ -33,10 +37,19 @@ export default function MicroLearningRow(props) {
 
   return (
     <div className={show ? "d-block" : "d-none"}>
+      <MicroLearningModal
+        id={id}
+        title={title}
+        video_link={video_link}
+        content={content}
+        modalShow={modalShow}
+        setModalShow={setModalShow}
+        handleModalClose={handleModalClose}
+      />
       <Row className={"mb-3"}>
         <Col xs={12} md={4}>
           <Ratio aspectRatio={"4x3"}>
-            <iframe title={title} allowfullscreen src={`${video_link}`} />
+            <iframe title={title} allowFullScreen src={`${video_link}`} />
           </Ratio>
         </Col>
         <Col xs={12} md={5}>
