@@ -18,7 +18,7 @@ export default function QuestionRow(props) {
 
   const handleQuestionDeletion = async () => {
     await axios
-      .post("http://localhost:5005/admin/assessment/delete", {
+      .post(`${process.env.REACT_APP_GATEWAY_ENDPOINT}/admin/assessment/delete`, {
         id: question.id,
       })
       .then(async () => {

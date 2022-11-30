@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Row, Col, Container } from "react-bootstrap";
 import axios from "axios";
 import MicroLearningRow from "./MicroLearningRow";
@@ -8,7 +8,7 @@ export default function ViewMicroLearningModules(props) {
   const [courseList, setCourseList] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:5005/course/fetch-all").then((res) => {
+    axios.get(`${process.env.REACT_APP_GATEWAY_ENDPOINT}/course/fetch-all`).then((res) => {
       setCourseList(res.data.data);
     });
   }, []);

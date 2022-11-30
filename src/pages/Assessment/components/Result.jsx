@@ -36,7 +36,7 @@ export default function Result(props) {
             report: JSON.stringify(report)
         };
 
-        await axios.post(`http://localhost:5005/assessment/submit-user-response`, data)
+        await axios.post(`${process.env.REACT_APP_GATEWAY_ENDPOINT}/assessment/submit-user-response`, data)
             .then((res) => {
                 console.log(res);
                 // clearProgress();

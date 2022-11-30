@@ -48,7 +48,7 @@ export default function MicroLearningModal(props) {
     };
 
     await axios
-      .post(`http://localhost:5005/admin/course/update`, data)
+      .post(`${process.env.REACT_APP_GATEWAY_ENDPOINT}/admin/course/update`, data)
       .then(() => {
         alert("updated");
         setModalShow(false);

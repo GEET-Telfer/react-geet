@@ -19,7 +19,9 @@ export default function MicroLearningRow(props) {
 
   const handleDeleteCourse = async () => {
     axios
-      .post(`http://localhost:5005/admin/course/delete`, { id: id })
+      .post(`${process.env.REACT_APP_GATEWAY_ENDPOINT}/admin/course/delete`, {
+        id: id,
+      })
       .then(() => {
         alert("MicroLearning Module is Deleted");
         setShow(false);
@@ -49,7 +51,7 @@ export default function MicroLearningRow(props) {
         <Col xs={12} md={5}>
           <Stack gap={3}>
             <div className="bg-light border">
-              <a href={`http://localhost/react-micro-learning?id=${id}`}>
+              <a href={`${process.env.REACT_APP_HOST}/react-micro-learning?id=${id}`}>
                 <h4>{title}</h4>
               </a>
             </div>
@@ -60,15 +62,13 @@ export default function MicroLearningRow(props) {
                 style={{
                   whiteSpace: "breakSpace",
                   maxWidth: "300px",
-                  maxHeight : "100px",
+                  maxHeight: "100px",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
-                  wordWrap: "break-word"
+                  wordWrap: "break-word",
                 }}
-
-                dangerouslySetInnerHTML={{ __html: content}}
-              >
-                </p>
+                dangerouslySetInnerHTML={{ __html: content }}
+              ></p>
             </div>
           </Stack>
         </Col>

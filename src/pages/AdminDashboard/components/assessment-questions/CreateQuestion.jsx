@@ -29,7 +29,7 @@ export default function CreateQuestion(props) {
             hasNA: hasNARef.current.value === 'on' ? 1 : 0
         };
 
-        await axios.post("http://localhost:5005/admin/assessment/create", data)
+        await axios.post(`${process.env.REACT_APP_GATEWAY_ENDPOINT}/admin/assessment/create`, data)
             .then(() => {
                 setShow(true);
                 componentRef.current = "Commitment to Equity, Diversity and Inclusion";

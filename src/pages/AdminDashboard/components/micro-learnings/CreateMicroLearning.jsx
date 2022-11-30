@@ -34,7 +34,7 @@ export default function CreateMicroLearningModule(props) {
     };
 
     await axios
-      .post(`http://localhost:5005/admin/course/create`, data)
+      .post(`${process.env.REACT_APP_GATEWAY_ENDPOINT}/admin/course/create`, data)
       .then(() => {
         // notify admin
         setShow(true);

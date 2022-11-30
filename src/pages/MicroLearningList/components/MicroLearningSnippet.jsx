@@ -30,7 +30,7 @@ export default function MicroLearningSnippet(props) {
       <Col xs={12} md={8}>
         <Stack gap={3}>
           <div className="bg-light border">
-            <a href={`http://localhost/react-micro-learning?id=${id}`}>
+            <a href={`${process.env.REACT_APP_HOST}/react-micro-learning?id=${id}`}>
               <h4>{title}</h4>
             </a>
           </div>

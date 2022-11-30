@@ -43,7 +43,7 @@ export default function MetaQuestionList(props) {
     }
     if (flagFetch) {
       axios
-        .get(`http://localhost:5005/assessment/fetch-all`)
+        .get(`${process.env.REACT_APP_GATEWAY_ENDPOINT}/assessment/fetch-all`)
         .then((res) => {
           const questions = _.groupBy(res.data.data, "component_abbrev");
           // trim duplicated values in the questions objects

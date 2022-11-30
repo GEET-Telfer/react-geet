@@ -34,7 +34,7 @@ export default function QuestionModal(props) {
 
         console.log(data);
         
-        axios.post("http://localhost:5005/admin/assessment/update", data)
+        axios.post(`${process.env.REACT_APP_GATEWAY_ENDPOINT}/admin/assessment/update`, data)
             .then(async () => {
                 // await axios.post("http://localhost:5005/admin/assessment/update")
                 //     .then(() => {

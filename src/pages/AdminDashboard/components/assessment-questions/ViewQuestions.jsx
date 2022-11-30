@@ -12,7 +12,7 @@ export default function ViewQuestions(props) {
     const { needUpdate, showDelete, setShowDelete, showEdit, setShowEdit } = useContext(AdminQuestionCtx);
 
     const fetchAllQuestions = async () => {
-        return await axios.get(`http://localhost:5005/assessment/fetch-all`);
+        return await axios.get(`${process.env.REACT_APP_GATEWAY_ENDPOINT}/assessment/fetch-all`);
     }
 
     useEffect(() => {
