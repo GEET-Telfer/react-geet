@@ -1,29 +1,36 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { Row, Col, Form, Toast, Button } from "react-bootstrap";
 import ToastContainer from "react-bootstrap/ToastContainer";
 
-import _ from "lodash";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.css"; // or include from a CDN
 import "react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css";
 
 import { Editor } from "react-draft-wysiwyg";
+import draftToHtml from "draftjs-to-html";
+import { EditorState, convertToRaw } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 export default function CreateMicroLearningModule(props) {
-  const { title, videoLink, content } = props;
-
   const [show, setShow] = useState(false);
 
-  const titleRef = useRef(title ? title : "");
-  const videoLinkRef = useRef(videoLink ? videoLink : "");
-  const contentRef = useRef(content ? content : "");
+  const titleRef = useRef("");
+  const videoLinkRef = useRef("");
+
+  const [content, setContent] = useState();
+
+  let editorState = EditorState.createEmpty();
+  const [editorContent, setEditorContent] = useState(editorState);
+
+  const onEditorStateChange = (editorState) => {
+    setEditorContent(editorState);
+  };
 
   const handleCreateMicroLearningModule = async () => {
     let data = {
       title: titleRef.current,
       video_link: videoLinkRef.current,
-      content: JSON.stringify(contentRef.current),
+      content: content.value,
     };
 
     await axios
@@ -31,10 +38,11 @@ export default function CreateMicroLearningModule(props) {
       .then(() => {
         // notify admin
         setShow(true);
-        // reset form
-        titleRef.current.value = "";
-        videoLinkRef.current.value = "";
-        contentRef.current.value = "";
+        // reset Editor content
+        const editorState = EditorState.createEmpty();
+        setEditorContent(editorState);
+        // reset form input
+        document.getElementById("create-course-form").reset();
       })
       .catch((err) => {
         console.error(err);
@@ -57,10 +65,11 @@ export default function CreateMicroLearningModule(props) {
       </Row>
 
       <Row>
-        <Form>
+        <Form id={"create-course-form"}>
           <Form.Group
             as={Row}
             className="mb-3"
+            ref={(val) => (titleRef.current = val)}
             value={titleRef}
             onChange={(event) => (titleRef.current = event.target.value)}
           >
@@ -73,6 +82,7 @@ export default function CreateMicroLearningModule(props) {
           <Form.Group
             as={Row}
             className="mb-3"
+            ref={(val) => (videoLinkRef.current = val)}
             value={videoLinkRef}
             onChange={(event) => (videoLinkRef.current = event.target.value)}
           >
@@ -95,12 +105,11 @@ export default function CreateMicroLearningModule(props) {
                 <Form.Label>Micro Learning Module content</Form.Label>
 
                 <Editor
-                  onChange={(event) => {
-                    contentRef.current = event.blocks;
-                  }}
-                  wrapperClassName="wrapper-class"
-                  editorClassName="editor-class"
-                  toolbarClassName="toolbar-class"
+                  editorState={editorContent}
+                  toolbarClassName="toolbarClassName"
+                  wrapperClassName="wrapperClassName"
+                  editorClassName="editorClassName"
+                  onEditorStateChange={onEditorStateChange}
                   editorStyle={{
                     border: "1px solid black",
                     position: "relative",
@@ -108,6 +117,15 @@ export default function CreateMicroLearningModule(props) {
                     backgroundColor: "lightblue",
                     height: "400px",
                   }}
+                />
+
+                <textarea
+                  style={{ display: "none" }}
+                  disabled
+                  ref={(val) => setContent(val)}
+                  value={draftToHtml(
+                    convertToRaw(editorContent.getCurrentContent())
+                  )}
                 />
               </div>
             </Col>

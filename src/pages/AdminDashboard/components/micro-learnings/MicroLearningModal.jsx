@@ -1,8 +1,15 @@
 import axios from "axios";
-import { useState, useRef, useContext, useEffect } from "react";
+import { useState, useRef } from "react";
 import { Row, Col, Form, Modal, Button } from "react-bootstrap";
 
 import { Editor } from "react-draft-wysiwyg";
+import draftToHtml from "draftjs-to-html";
+import {
+  EditorState,
+  convertToRaw,
+  ContentState,
+  convertFromHTML,
+} from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 export default function MicroLearningModal(props) {
@@ -21,38 +28,37 @@ export default function MicroLearningModal(props) {
 
   const titleRef = useRef(title);
   const videoLinkRef = useRef(video_link);
-  const contentRef = useRef(content);
+
+  const [newContent, setNewContent] = useState();
+  let editorState = EditorState.createWithContent(
+    ContentState.createFromBlockArray(convertFromHTML(content))
+  );
+  const [updatedContent, setUpdatedContent] = useState(editorState);
+
+  const onEditorStateChange = (editorState) => {
+    setUpdatedContent(editorState);
+  };
 
   const handleCoursenUpdate = async () => {
-    alert("onModalUpdate");
-
     let data = {
       id: id,
-      //   title: titleRef.current,
-      title: titleState,
+      title: titleRef.current,
       video_link: videoLinkRef.current,
-      content: JSON.stringify(contentRef.current),
+      content: newContent.value,
     };
 
-    console.log(data);
-
-    return;
-    // await axios
-    //   .post(`http://localhost:5005/admin/course/update`, data)
-    //   .then(() => {
-    //     alert("updated");
-    //     setModalShow(false);
-    //     // reset form
-    //     titleRef.current.value = "";
-    //     videoLinkRef.current.value = "";
-    //     contentRef.current.value = "";
-    //   });
+    await axios
+      .post(`http://localhost:5005/admin/course/update`, data)
+      .then(() => {
+        alert("updated");
+        setModalShow(false);
+      });
   };
 
   return (
     <Modal show={modalShow} onHide={handleModalClose}>
       <Modal.Body>
-        <Form>
+        <Form id={"update-course-form"}>
           <Form.Group as={Row} className="mb-3">
             <Col>
               <Form.Label>Micro Learning Module Title</Form.Label>
@@ -96,12 +102,11 @@ export default function MicroLearningModal(props) {
                 <Form.Label>Micro Learning Module content</Form.Label>
 
                 <Editor
-                  onChange={(event) => {
-                    contentRef.current = event.blocks;
-                  }}
-                  wrapperClassName="wrapper-class"
-                  editorClassName="editor-class"
-                  toolbarClassName="toolbar-class"
+                  editorState={updatedContent}
+                  toolbarClassName="toolbarClassName"
+                  wrapperClassName="wrapperClassName"
+                  editorClassName="editorClassName"
+                  onEditorStateChange={onEditorStateChange}
                   editorStyle={{
                     border: "1px solid black",
                     position: "relative",
@@ -109,6 +114,15 @@ export default function MicroLearningModal(props) {
                     backgroundColor: "lightblue",
                     height: "400px",
                   }}
+                />
+
+                <textarea
+                  style={{ display: "none" }}
+                  disabled
+                  ref={(val) => setNewContent(val)}
+                  value={draftToHtml(
+                    convertToRaw(updatedContent.getCurrentContent())
+                  )}
                 />
               </div>
             </Col>
