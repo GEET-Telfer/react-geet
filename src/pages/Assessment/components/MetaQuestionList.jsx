@@ -8,7 +8,7 @@ import { ProgressCtx } from "../../../context/ProgressContext";
 import { useWindowDimensions } from "../../../hooks";
 
 export default function MetaQuestionList(props) {
-  const { setComplete } = props;
+  const { hasConsent, setComplete } = props;
   const { width } = useWindowDimensions();
 
   // Context
@@ -41,7 +41,7 @@ export default function MetaQuestionList(props) {
         return;
       }
     }
-    if (flagFetch) {
+    if (!flagFetch) {
       axios
         .get(`${process.env.REACT_APP_GATEWAY_ENDPOINT}/assessment/fetch-all`)
         .then((res) => {
@@ -68,7 +68,7 @@ export default function MetaQuestionList(props) {
           console.error(err);
         });
     }
-  }, []);
+  }, [hasConsent]);
 
   useEffect(() => {
     let count = 0;

@@ -17,7 +17,7 @@ export default function QuestionRadioButton(props) {
 
         const progressItem = {
             id: questionId,
-            value: index,
+            value: parseInt(index) + 1,
             component : componentName
         };
 

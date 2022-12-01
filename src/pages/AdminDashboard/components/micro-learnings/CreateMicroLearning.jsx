@@ -15,7 +15,9 @@ export default function CreateMicroLearningModule(props) {
   const [show, setShow] = useState(false);
 
   const titleRef = useRef("");
+  const [title,setTitle] = useState("");
   const videoLinkRef = useRef("");
+  const [videoLink, setVideoLink] = useState("");
 
   const [content, setContent] = useState();
 
@@ -32,7 +34,7 @@ export default function CreateMicroLearningModule(props) {
       video_link: videoLinkRef.current,
       content: content.value,
     };
-
+    console.log(data);
     await axios
       .post(`${process.env.REACT_APP_GATEWAY_ENDPOINT}/admin/course/create`, data)
       .then(() => {
@@ -69,9 +71,11 @@ export default function CreateMicroLearningModule(props) {
           <Form.Group
             as={Row}
             className="mb-3"
-            ref={(val) => (titleRef.current = val)}
-            value={titleRef}
-            onChange={(event) => (titleRef.current = event.target.value)}
+            value={title}
+            onChange={(event) => {
+              setTitle(event.target.value);
+              titleRef.current = event.target.value;
+            }}
           >
             <Col>
               <Form.Label>Micro Learning Module Title</Form.Label>
@@ -82,9 +86,11 @@ export default function CreateMicroLearningModule(props) {
           <Form.Group
             as={Row}
             className="mb-3"
-            ref={(val) => (videoLinkRef.current = val)}
-            value={videoLinkRef}
-            onChange={(event) => (videoLinkRef.current = event.target.value)}
+            value={videoLink}
+            onChange={(event) => {
+              setVideoLink(event.target.value);
+              videoLinkRef.current = event.target.value;
+            }}
           >
             <Col>
               <Form.Label>Micro Learning Module Video Link</Form.Label>
