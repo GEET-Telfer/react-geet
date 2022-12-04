@@ -13,6 +13,9 @@ import {
 import { useWindowDimensions } from "../../hooks";
 import { AdminQuestionCtxProvider } from "../../context/AdminQuestionContext";
 
+/**
+ * Entry point for Admin Dashboard
+ */
 export default function AdminDashboard() {
   const keyList = [
     "assessment-view",
@@ -25,10 +28,9 @@ export default function AdminDashboard() {
   const [activeKey, setActiveKey] = useState("assessment-view");
 
   const handleSelect = (eventKey) => {
+    // update activeKey on select
     for (const key of keyList) {
-      if (eventKey === key) {
-        setActiveKey(key);
-      }
+      if (eventKey === key) setActiveKey(key);
     }
   };
 
@@ -36,9 +38,11 @@ export default function AdminDashboard() {
     <AdminQuestionCtxProvider>
       <Container fuild="true" style={{ width: width }}>
         <h1>AdminDashboard</h1>
-        <Row>
+        <Row className={"element-control"}>
+          {/* Nav dropdown control on Admin pandel display */}
           <Col sx={{ span: 2 }} md={{ span: 2 }}>
             <Nav variant="pills" onSelect={handleSelect}>
+              {/* Assessment control */}
               <NavDropdown title="Assessment" id="nav-dropdown-assessment">
                 <NavDropdown.Item eventKey="assessment-view">
                   View
@@ -48,6 +52,7 @@ export default function AdminDashboard() {
                   Create
                 </NavDropdown.Item>
               </NavDropdown>
+              {/* Micro-learning module control */}
               <NavDropdown
                 title="Micro Learning"
                 id="nav-dropdown-micro-learning"
@@ -62,6 +67,7 @@ export default function AdminDashboard() {
               </NavDropdown>
             </Nav>
           </Col>
+          {/* Admin pandel content, which is toggled by dropdown buttons */}
           <Col sx={{ span: 8 }} md={{ span: 8 }}>
             <Container>
               {activeKey === "assessment-create" && <CreateQuestion />}

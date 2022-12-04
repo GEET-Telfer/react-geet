@@ -1,119 +1,121 @@
 import axios from "axios";
 import { useState, useRef, useContext } from "react";
 import { Row, Col, Form, Modal, Button } from "react-bootstrap";
-import RangeSlider from 'react-bootstrap-range-slider';
-import { AdminQuestionCtx } from '../../../../context/AdminQuestionContext';
+import RangeSlider from "react-bootstrap-range-slider";
+import { AdminQuestionCtx } from "../../../../context/AdminQuestionContext";
 
-
+/**
+ * A pop-up modal for updating existing question.
+ */
 export default function QuestionModal(props) {
-    const { modalShow, setModalShow, handleModalClose, question } = props;
-    const { id, component, description, has_NA, scoring } = question;
+  const { modalShow, setModalShow, handleModalClose, question } = props;
+  const { id, component, description, has_NA, scoring } = question;
 
-    // Context    
-    const {
-        needUpdate, setNeedUpdate, setShowEdit
-    } = useContext(AdminQuestionCtx);
+  // Context
+  const { needUpdate, setNeedUpdate, setShowEdit } = useContext(AdminQuestionCtx);
 
-    // State
-    const [scoring_, setScoring] = useState(scoring);
+  // State
+  const [scoring_, setScoring] = useState(scoring);
+  const [hasNA, setHasNA] = useState(has_NA === "1");
 
-    // Ref
-    const componentRef = useRef(component);
-    const descriptionRef = useRef(description);
-    const hasNARef = useRef(has_NA);
+  // Ref
+  const descriptionRef = useRef(description);
 
+  const handleQuestionUpdate = () => {
+    // collect updated question data
+    const data = {
+      id: id,
+      component: component,
+      description: descriptionRef.current,
+      scoring: scoring_,
+      hasNA: hasNA,
+    };
+    // submit update request
+    axios
+      .post(
+        `${process.env.REACT_APP_GATEWAY_ENDPOINT}/admin/assessment/update`,
+        data
+      )
+      .then((res) => {
+        if(res.status === 200) {
+          alert("Successfully updated");
+          setNeedUpdate(!needUpdate); // invoke question list re-rendering
+          setShowEdit(true);
+          setModalShow(false);
+        } else {
+          alert("Request didn't go through");
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
 
-    const handleQuestionUpdate = () => {
-        const data = {
-            id: id,
-            component: componentRef.current,
-            description: descriptionRef.current,
-            scoring: scoring_,
-            hasNA: hasNARef.current.value === "on" ? 1 : 0
-        };
+  return (
+    <Modal show={modalShow} onHide={handleModalClose}>
+      <Modal.Body>
+        <Form>
+          <Form.Group as={Row} className="mb-3">
+            <Col xs={12}>
+              <Form.Label>Question Component</Form.Label>
+              <Form.Control disabled as={"select"}>
+                <option value={component}>{component}</option>
+              </Form.Control>
+            </Col>
+          </Form.Group>
 
-        console.log(data);
-        
-        axios.post(`${process.env.REACT_APP_GATEWAY_ENDPOINT}/admin/assessment/update`, data)
-            .then(async () => {
-                // await axios.post("http://localhost:5005/admin/assessment/update")
-                //     .then(() => {
-                        setNeedUpdate(!needUpdate);
-                        setShowEdit(true);
-                        setModalShow(false);
-                    // });
-            }).catch((err) => {
-                console.error(err);
-            })
-    }
+          <Form.Group
+            as={Row}
+            className="mb-3"
+            value={descriptionRef}
+            onChange={(event) => (descriptionRef.current = event.target.value)}
+          >
+            <Col>
+              <Form.Label>Question Description</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                defaultValue={descriptionRef.current}
+              />
+            </Col>
+          </Form.Group>
 
-    return (
-        <Modal show={modalShow} onHide={handleModalClose}>
-            <Modal.Body>
-                <Form>
-                    <Form.Group as={Row} className="mb-3">
-                        <Col xs={12}>
-                            <Form.Label>Question Component</Form.Label>
-                            <Form.Select
-                                disabled
-                                onChange={(event) => componentRef.current = event.target.value}>
-                                <option value="Commitment to Equity, Diversity and Inclusion">Commitment to Equity, Diversity and Inclusion</option>
-                                <option value="Gender Expertise">Gender Expertise</option>
-                                <option value="Access to Resources">Access to Resources</option>
-                                <option value="Program Design">Program Design</option>
-                                <option value="Program Development">Program Development</option>
-                                <option value="Program Delivery">Program Delivery</option>
-                                <option value="Program Evaluation">Program Evaluation</option>
-                            </Form.Select>
-                        </Col>
-                    </Form.Group>
+          <Form.Group as={Row} className="mb-3">
+            <Col xs="12">
+              <Form.Label> Scoring </Form.Label>
+              <RangeSlider
+                value={scoring_}
+                onChange={(e) => setScoring(e.target.value)}
+                step={2}
+                min={1}
+                max={11}
+                tooltip={"on"}
+                tooltipPlacement={"top"}
+              />
+            </Col>
+          </Form.Group>
 
-                    <Form.Group
-                        as={Row} className="mb-3"
-                        value={descriptionRef}
-                        onChange={(event) => descriptionRef.current = event.target.value}>
-                        <Col>
-                            <Form.Label>Question Description</Form.Label>
-                            <Form.Control as="textarea" rows={3} defaultValue={descriptionRef.current} />
-                        </Col>
-                    </Form.Group>
+          <Form.Group as={Row} className="mb-3">
+            <Col xs={12}>
+              <Form.Switch
+                onChange={(event) => setHasNA(!hasNA)}
+                checked={hasNA}
+                id="switch-has-na"
+                label="Has N/A"
+              />
+            </Col>
+          </Form.Group>
+        </Form>
+      </Modal.Body>
 
-                    <Form.Group as={Row} className="mb-3">
-                        <Col xs="12">
-                            <Form.Label> Scoring </Form.Label>
-                            <RangeSlider
-                                value={scoring_}
-                                onChange={e => setScoring(e.target.value)}
-                                step={2}
-                                min={1}
-                                max={11}
-                                tooltip={"on"}
-                                tooltipPlacement={"top"}
-                            />
-                        </Col>
-                    </Form.Group>
-
-                    <Form.Group as={Row} className="mb-3">
-                        <Col xs={12} >
-                            <Form.Check
-                                type="switch"
-                                id="switch-has-na"
-                                label="Has N/A"
-                                ref={hasNARef}
-                            />
-                        </Col>
-                    </Form.Group>
-                </Form>
-            </Modal.Body>
-
-            <Modal.Footer>
-                <Button variant="secondary" onClick={handleModalClose}>
-                    Close
-                </Button>
-                <Button variant="primary" onClick={handleQuestionUpdate}>
-                    Submit
-                </Button>
-            </Modal.Footer>
-        </Modal>
-    )
+      <Modal.Footer>
+        <Button variant="secondary" onClick={handleModalClose}>
+          Close
+        </Button>
+        <Button variant="primary" onClick={handleQuestionUpdate}>
+          Submit
+        </Button>
+      </Modal.Footer>
+    </Modal>
+  );
 }

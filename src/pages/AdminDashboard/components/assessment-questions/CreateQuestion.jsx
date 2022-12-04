@@ -7,19 +7,24 @@ import Toast from "react-bootstrap/Toast";
 import ToastContainer from "react-bootstrap/ToastContainer";
 
 import axios from "axios";
-import "bootstrap/dist/css/bootstrap.css"; // or include from a CDN
-import "react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css";
 
+/**
+ * Assessment question creation component
+ */
 export default function CreateQuestion(props) {
   // State
-  const [scoring, setScoring] = useState(5);
-  const [show, setShow] = useState(false);
+  const [scoring, setScoring] = useState(5); // default number of choices
+  const [show, setShow] = useState(false); // toggle toast notification on successfully creating a question
+
   const [component, setComponent] = useState(
     "Commitment to Equity, Diversity and Inclusion"
-  );
-  const descriptionRef = useRef("");
-  const [hasNA, setHasNA] = useState(false);
+  ); // default component category
+  const [hasNA, setHasNA] = useState(false); // default has Not Avaliable
 
+  // Ref
+  const descriptionRef = useRef("");
+
+  // submit request to create a question
   const handleCreateQuestion = async () => {
     const data = {
       component: component,
@@ -28,25 +33,28 @@ export default function CreateQuestion(props) {
       hasNA: hasNA,
     };
 
-
     await axios
       .post(
         `${process.env.REACT_APP_GATEWAY_ENDPOINT}/admin/assessment/create`,
         data
       )
-      .then(() => {
-        setShow(true);
-        document.getElementById("create-question-form").reset();
-        setComponent("Commitment to Equity, Diversity and Inclusion");
-        setScoring(5);
-        setHasNA(false);
+      .then((res) => {
+        console.log(res);
+        if (res.status === 200) {
+          setShow(true);
+          document.getElementById("create-question-form").reset();
+          setComponent("Commitment to Equity, Diversity and Inclusion");
+          setScoring(5);
+          setHasNA(false);
+        } else {
+          alert("Request didn't go through");
+        }
       })
       .catch((err) => {
         console.error(err);
       });
   };
 
-  // componentRef.current = event.target.value
   return (
     <div>
       <Row>

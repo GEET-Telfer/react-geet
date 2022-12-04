@@ -5,6 +5,9 @@ import _ from 'lodash';
 import QuestionList from './QuestionList';
 import { AdminQuestionCtx } from '../../../../context/AdminQuestionContext';
 
+/**
+ * Entry point for assessment question list
+ */
 export default function ViewQuestions(props) {
 
     const [questions, setQuestions] = useState({});
@@ -19,15 +22,7 @@ export default function ViewQuestions(props) {
         fetchAllQuestions()
             .then((res) => {
                 const data = _.groupBy(res.data.data, 'component_abbrev');
-                // trim duplicated values in the questions objects
-                // for (const key in data) {
-                //     data[key] = data[key].map((question) => {
-                //         question = _.omit(question, ['component', 'component_abbrev']);
-                //         return question;
-                //     })
-                // }
                 setQuestions(data);
-                console.log("Questions fetched");
             })
             .catch((err) => {
                 console.error(err);
@@ -36,6 +31,7 @@ export default function ViewQuestions(props) {
 
     return (
         <div>
+            {/* Toast Notification on successful update/ delete */}
             <Row>
                 <ToastContainer className="p-3" position={'middle-center'}>
                     <Toast onClose={() => setShowEdit(false)} show={showEdit} delay={3000} autohide>
@@ -50,6 +46,7 @@ export default function ViewQuestions(props) {
                     </Toast>
                 </ToastContainer>
             </Row>
+            {/* Question list */}
             <Row>
                 <Col xs={12}>
                     <Container>
@@ -57,7 +54,6 @@ export default function ViewQuestions(props) {
                             Object.keys(questions).map((component) => {
                                 return (
                                     <Fragment key={component}>
-                                        <h1>{component}</h1>
                                         <QuestionList component={component} questions={questions[component]} />
                                     </Fragment>
                                 );

@@ -1,34 +1,59 @@
 import axios from "axios";
+import { useEffect } from "react";
 import { useState, useContext } from "react";
 import { Row, Col, Button } from "react-bootstrap";
 import { AdminQuestionCtx } from "../../../../context/AdminQuestionContext";
+import ConfirmationModal from "./ConfirmationModal";
 import QuestionModal from "./QuestionModal";
 
+/**
+ * Detailed Question row with question, NA, scoring and action buttons
+ */
 export default function QuestionRow(props) {
-  const { index, question, component } = props;
+  const { question, component, questionList, setQuestionList } = props;
 
-  const [show, setShow] = useState(true);
+  //Context
+  const { setShowDelete } = useContext(AdminQuestionCtx);
 
-  const [modalShow, setModalShow] = useState(false);
-  const handleModalClose = () => setModalShow(false);
-  const handleModalShow = () => setModalShow(true);
+  // State
+  const [show, setShow] = useState(true); // toggle variable to display current QuestionRow
+  const [confirm, setConfirm] = useState(false); // confirmation on Deleting the current QuestionRow
 
-  const { needUpdate, setNeedUpdate, setShowDelete } =
-    useContext(AdminQuestionCtx);
+  // Modal Toggle
+  const [modalShow, setModalShow] = useState(false); // toggle update-question modal
+  const handleModalClose = () => setModalShow(false); // close update-question modal
+  const handleModalShow = () => setModalShow(true); // open update-question modal
 
-  const handleQuestionDeletion = async () => {
-    await axios
-      .post(`${process.env.REACT_APP_GATEWAY_ENDPOINT}/admin/assessment/delete`, {
-        id: question.id,
-      })
-      .then(async () => {
-        alert("Question Deleted")
-        setShow(false);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false); // toggle confirm-on-delete modal
+  const handleQuestionDeletion = () => setShowConfirmationModal(true); // open confirm-on-delete modal
+
+  // submit request to delete the questionRow after admin cnofirms on deletion.
+  useEffect(() => {
+    if (confirm === true) {
+      axios
+        .post(
+          `${process.env.REACT_APP_GATEWAY_ENDPOINT}/admin/assessment/delete`,
+          {
+            id: question.id,
+          }
+        )
+        .then(async (res) => {
+          if (res.status === 200) {
+            let newQuestionList = questionList.filter(
+              (obj) => obj.id !== question.id
+            );
+            setQuestionList(newQuestionList); // delete current question row from question list
+            setShow(false);
+            setShowDelete(true);
+          } else {
+            alert("Request didn't go through");
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  }, [confirm]);
 
   return (
     <div className={show ? "d-block" : "d-none"}>
@@ -40,10 +65,13 @@ export default function QuestionRow(props) {
         handleModalClose={handleModalClose}
       />
 
+      <ConfirmationModal
+        setConfirm={setConfirm}
+        modalShow={showConfirmationModal}
+        setModalShow={setShowConfirmationModal}
+      />
+
       <Row>
-        <Col sx={1} md={1}>
-          {index + 1}
-        </Col>
         <Col sx={6} md={6}>
           {question.description}
         </Col>
@@ -53,12 +81,12 @@ export default function QuestionRow(props) {
         <Col sx={1} md={1}>
           {question.scoring}
         </Col>
-        <Col sx={1} md={1}>
+        <Col sx={12} md={1}>
           <Button variant={"primary"} onClick={handleModalShow}>
             UPDATE
           </Button>
         </Col>
-        <Col sx={1} md={1}>
+        <Col sx={12} md={1}>
           <Button
             variant={"danger"}
             onClick={handleQuestionDeletion}
