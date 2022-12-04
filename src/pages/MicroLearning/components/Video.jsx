@@ -1,16 +1,21 @@
-import { Fragment } from 'react';
-
+import { Row, Col } from "react-bootstrap";
 
 export default function Video(props) {
-    const { videoSrc, title } = props;
+  const { videoSrc, title } = props;
 
-    return (
-        <Fragment>
-            <iframe width="750" height="560"
+  return (
+    <Row>
+      <Col>
+        <div align="center">
+          <iframe
+            width="740"
+            height="420"
             title={title}
-                allowfullscreen
-                src={videoSrc}>
-            </iframe>
-        </Fragment>
-    )
+            allowfullscreen
+            src={videoSrc}
+           />
+        </div>
+      </Col>
+    </Row>
+  );
 }
