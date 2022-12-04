@@ -7,6 +7,10 @@ import { Col, Row } from "react-bootstrap";
 import { ProgressCtx } from "../../../context/ProgressContext";
 import { useWindowDimensions } from "../../../hooks";
 
+/**
+ * Entry point for assessment questions, which fetches and saves assessment questions to LocalStoarge
+ * The MetaQuestionList is composed of toggle buttons for question list and question lists.
+ */
 export default function MetaQuestionList(props) {
   const { hasConsent, setComplete } = props;
   const { width } = useWindowDimensions();

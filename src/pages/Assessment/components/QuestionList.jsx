@@ -1,5 +1,8 @@
 import QuestionRadioButton from "./QuestionRadioButton";
 
+/**
+ * Quesation List is composed of Assessment Category(title), descriptions and radio buttons
+ */
 export default function QuestionList(props) {
     const { questionList, componentName } = props;
 

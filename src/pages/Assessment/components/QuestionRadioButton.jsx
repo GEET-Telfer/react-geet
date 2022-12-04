@@ -1,4 +1,3 @@
-import { toString } from 'lodash';
 import { Fragment, useContext } from 'react';
 import Form from 'react-bootstrap/Form';
 import { ProgressCtx } from '../../../context/ProgressContext';
@@ -38,7 +37,7 @@ export default function QuestionRadioButton(props) {
                 id={`scoring-${id}-${index}`}
                 onClick={handleRadioButtonClick}
                 onChange={() => {}}
-                checked = {progress[id]?.value === toString(index)}
+                checked = {progress[id]?.value === (index + 1)}
             />
             {
                 isLast && <Form.Label className="assessment-question-label">Agree</Form.Label>

@@ -4,6 +4,9 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Article from "../../MicroLearning/components/Article";
 
+/**
+ * Consent and Instruction Page for assessment questions.
+ */
 export default function Instruction(props) {
 
     const { hasConsent, setConsent } = props;

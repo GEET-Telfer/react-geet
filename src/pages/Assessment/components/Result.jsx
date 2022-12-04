@@ -1,6 +1,6 @@
-import { useContext, useRef } from 'react';
+import { useContext, useRef, useState } from 'react';
 import { ProgressCtx } from '../../../context/ProgressContext';
-import { Col, Row } from 'react-bootstrap';
+import { Col, Row, Toast, ToastContainer } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import _ from 'lodash';
@@ -11,23 +11,29 @@ import ProgressBar from 'react-bootstrap/ProgressBar';
 export default function Result(props) {
 
     const { hasConsent, hasComplete, setComplete } = props;
-    const { width } = useWindowDimensions();
+    const { width } = useWindowDimensions(); // get window width
 
+    // LocalStorage handler for User Progress and Report
     const { progress, calComponentScore, calOverallSore, mapScoreToLabel, clearProgress } = useContext(ProgressCtx);
 
-    // report
+    // report data
     const scores = calComponentScore(progress);
     const overallScore = calOverallSore(scores);
     const score = overallScore.sum / overallScore.size;
-    let report = {overall : mapScoreToLabel(score)};
-    for (let key in scores) report[key] = mapScoreToLabel(scores[key]);
+    let report = { overall : mapScoreToLabel(score) };
+    for (let key in scores) { report[key] =  mapScoreToLabel(scores[key]) }
 
     // Ref
     const userEmailRef = useRef("");
 
+    // State
+    const [showFeedbackSent, setShowFeedbackSent] = useState(false);
+
+    /**
+     * submit user response, score and report to endpoint
+     */
     const handleUserResponseSubmission = async () => {
         let user_response = _.groupBy(progress, 'component');
-        console.log(user_response);
 
         const data = {
             user_email: userEmailRef.current.value,
@@ -38,16 +44,35 @@ export default function Result(props) {
 
         await axios.post(`${process.env.REACT_APP_GATEWAY_ENDPOINT}/assessment/submit-user-response`, data)
             .then((res) => {
-                console.log(res);
-                // clearProgress();
+                if(res.status === 200) {
+                    setShowFeedbackSent(true);
+                } 
             }).catch(console.error);
 
         userEmailRef.current.value = "";
     }
 
+    /**
+     * Clear user progress and replace result component with assessment component
+     */
+    const handleUserResponseReset = () => {
+        clearProgress();
+        setComplete(false);
+    }
+
     return (
         <Row xs={12} sm={12} 
         style={{marginLeft: 0.2 * width, width : 0.45 * width, marginRight: 0.2 * width}}> 
+            <ToastContainer className="p-3" position={"middle-center"}>
+                <Toast
+                    onClose={() => setShowFeedbackSent(false)}
+                    show={showFeedbackSent}
+                    delay={3000}
+                    autohide
+                >
+                    <Toast.Body>Feedback sent</Toast.Body>
+                </Toast>
+            </ToastContainer>
             {
                 hasConsent && hasComplete &&
                 <Col>
@@ -58,13 +83,13 @@ export default function Result(props) {
                             const score = key === 'overall' ? overallScore : scores[key];
                             const meanScore = score?.sum / score?.size;
                             const now = (100 * meanScore / (key === 'overall' ? 7 : 5)).toFixed(2);
-                            const status = mapScoreToLabel(score) === "WARNING" ? "danger" : 
-                            mapScoreToLabel(score) === "OK" ? "warning" : "success";
+                            const status = report[key] === "WARNING" ? "danger" : 
+                                            report[key] === "OK" ? "warning" : "success";
                             return (
-                            <p key={key}>
+                            <div key={key}>
                                 {key} : {report[key]}
                                 <ProgressBar animated striped variant={status} label={`${now}%`} now={now} />
-                            </p>);
+                            </div>);
                         })
                     }
                     <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -73,6 +98,14 @@ export default function Result(props) {
                             Please fill your email to receive feedback.
                         </Form.Text>
                     </Form.Group>
+
+                    <Button
+                        variant={"blank"}
+                        className={"btn-user-response float-start"}
+                        onClick={handleUserResponseReset}>
+                        Reset
+                    </Button>
+
                     <Button
                         variant={"blank"}
                         className={"btn-user-response float-end"}
