@@ -11,16 +11,20 @@ import draftToHtml from "draftjs-to-html";
 import { EditorState, convertToRaw } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
+/**
+ * Micro-learning creation component
+ */
 export default function CreateMicroLearningModule(props) {
   const [show, setShow] = useState(false);
 
-  const titleRef = useRef("");
-  const [title,setTitle] = useState("");
-  const videoLinkRef = useRef("");
-  const [videoLink, setVideoLink] = useState("");
+  const titleRef = useRef(""); // title Ref for real-time update on value
+  const [title, setTitle] = useState(""); // title state for updating on UI
+  const videoLinkRef = useRef(""); // video link Ref for real-time update on value
+  const [videoLink, setVideoLink] = useState(""); // video link State for updating on UI
 
-  const [content, setContent] = useState();
+  const [content, setContent] = useState(); // micro-learning content in HTML string
 
+  // WYSIWYG editor setup
   let editorState = EditorState.createEmpty();
   const [editorContent, setEditorContent] = useState(editorState);
 
@@ -28,23 +32,31 @@ export default function CreateMicroLearningModule(props) {
     setEditorContent(editorState);
   };
 
+  // submit request on creating a micro-learning resource
   const handleCreateMicroLearningModule = async () => {
     let data = {
       title: titleRef.current,
       video_link: videoLinkRef.current,
       content: content.value,
     };
-    console.log(data);
+
     await axios
-      .post(`${process.env.REACT_APP_GATEWAY_ENDPOINT}/admin/course/create`, data)
-      .then(() => {
-        // notify admin
-        setShow(true);
-        // reset Editor content
-        const editorState = EditorState.createEmpty();
-        setEditorContent(editorState);
-        // reset form input
-        document.getElementById("create-course-form").reset();
+      .post(
+        `${process.env.REACT_APP_GATEWAY_ENDPOINT}/admin/course/create`,
+        data
+      )
+      .then((res) => {
+        if (res.status === 200) {
+          // notify admin
+          setShow(true); // display toast if succeed
+          // reset Editor content
+          const editorState = EditorState.createEmpty();
+          setEditorContent(editorState);
+          // reset form input
+          document.getElementById("create-course-form").reset();
+        } else {
+          alert("Request didn't go through");
+        }
       })
       .catch((err) => {
         console.error(err);
@@ -68,6 +80,7 @@ export default function CreateMicroLearningModule(props) {
 
       <Row>
         <Form id={"create-course-form"}>
+          {/* Micro-learning Title */}
           <Form.Group
             as={Row}
             className="mb-3"
@@ -78,11 +91,12 @@ export default function CreateMicroLearningModule(props) {
             }}
           >
             <Col>
-              <Form.Label>Micro Learning Module Title</Form.Label>
-              <Form.Control as="textarea" rows={1} />
+              <Form.Label>MicroLearning Module Title</Form.Label>
+              <Form.Control as="textarea" rows={2} />
             </Col>
           </Form.Group>
 
+          {/* Micro-learning Youtube video link */}
           <Form.Group
             as={Row}
             className="mb-3"
@@ -94,10 +108,11 @@ export default function CreateMicroLearningModule(props) {
           >
             <Col>
               <Form.Label>Micro Learning Module Video Link</Form.Label>
-              <Form.Control as="textarea" rows={1} />
+              <Form.Control as="textarea" rows={2} />
             </Col>
           </Form.Group>
 
+          {/* WYSIWYG editor for Micro-learning content */}
           <Form.Group as={Row} className="mb-3">
             <Col>
               <div
@@ -116,6 +131,13 @@ export default function CreateMicroLearningModule(props) {
                   wrapperClassName="wrapperClassName"
                   editorClassName="editorClassName"
                   onEditorStateChange={onEditorStateChange}
+                  toolbar={{
+                    inline: { inDropdown: true },
+                    list: { inDropdown: true },
+                    textAlign: { inDropdown: true },
+                    link: { inDropdown: true },
+                    history: { inDropdown: true },
+                  }}
                   editorStyle={{
                     border: "1px solid black",
                     position: "relative",
@@ -124,7 +146,7 @@ export default function CreateMicroLearningModule(props) {
                     height: "400px",
                   }}
                 />
-
+                {/* hidden element for converting editor content to html string */}
                 <textarea
                   style={{ display: "none" }}
                   disabled
@@ -136,7 +158,7 @@ export default function CreateMicroLearningModule(props) {
               </div>
             </Col>
           </Form.Group>
-
+          {/* Submit */}
           <Form.Group as={Row} className="mb-3">
             <Col xs={12}>
               <Button

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 import { Row, Col, Form, Modal, Button } from "react-bootstrap";
 
 import { Editor } from "react-draft-wysiwyg";
@@ -11,7 +11,11 @@ import {
   convertFromHTML,
 } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import { AdminQuestionCtx } from "../../../../context/AdminQuestionContext";
 
+/**
+ * update-micro-learning modal
+ */
 export default function MicroLearningModal(props) {
   const {
     id,
@@ -23,18 +27,24 @@ export default function MicroLearningModal(props) {
     handleModalClose,
   } = props;
 
-  const [titleState, setTitleState] = useState(title);
+  // State
+  const [titleState, setTitleState] = useState(title); 
   const [videoLinkState, setVideoLinkState] = useState(video_link);
 
+  // Ref
   const titleRef = useRef(title);
   const videoLinkRef = useRef(video_link);
 
+  // Context
+  const { needUpdate, setNeedUpdate } = useContext(AdminQuestionCtx);
+
+  // WYSIWYG Editor
   const [newContent, setNewContent] = useState();
   let editorState = EditorState.createWithContent(
     ContentState.createFromBlockArray(convertFromHTML(content))
   );
   const [updatedContent, setUpdatedContent] = useState(editorState);
-
+  
   const onEditorStateChange = (editorState) => {
     setUpdatedContent(editorState);
   };
@@ -48,10 +58,18 @@ export default function MicroLearningModal(props) {
     };
 
     await axios
-      .post(`${process.env.REACT_APP_GATEWAY_ENDPOINT}/admin/course/update`, data)
-      .then(() => {
-        alert("updated");
-        setModalShow(false);
+      .post(
+        `${process.env.REACT_APP_GATEWAY_ENDPOINT}/admin/course/update`,
+        data
+      )
+      .then((res) => {
+        if (res.status === 200) {
+          alert("updated");
+          setModalShow(false);
+          setNeedUpdate(!needUpdate);
+        } else {
+          alert("Request didn't go through");
+        }
       });
   };
 
@@ -59,12 +77,13 @@ export default function MicroLearningModal(props) {
     <Modal show={modalShow} onHide={handleModalClose}>
       <Modal.Body>
         <Form id={"update-course-form"}>
+          {/* micro-learning title */}
           <Form.Group as={Row} className="mb-3">
             <Col>
               <Form.Label>Micro Learning Module Title</Form.Label>
               <Form.Control
                 as="textarea"
-                rows={3}
+                rows={2}
                 value={titleState}
                 onChange={(e) => {
                   setTitleState(e.target.value); // render new title
@@ -74,12 +93,13 @@ export default function MicroLearningModal(props) {
             </Col>
           </Form.Group>
 
+          {/* micro-learning youtube embedded link */}
           <Form.Group as={Row} className="mb-3">
             <Col>
               <Form.Label>Micro Learning Module Video Link</Form.Label>
               <Form.Control
                 as="textarea"
-                rows={3}
+                rows={2}
                 value={videoLinkState}
                 onChange={(e) => {
                   setVideoLinkState(e.target.value); //render new link
@@ -89,6 +109,7 @@ export default function MicroLearningModal(props) {
             </Col>
           </Form.Group>
 
+          {/* wysiwyg editor */}
           <Form.Group as={Row} className="mb-3">
             <Col>
               <div
@@ -107,6 +128,13 @@ export default function MicroLearningModal(props) {
                   wrapperClassName="wrapperClassName"
                   editorClassName="editorClassName"
                   onEditorStateChange={onEditorStateChange}
+                  toolbar={{
+                    inline: { inDropdown: true },
+                    list: { inDropdown: true },
+                    textAlign: { inDropdown: true },
+                    link: { inDropdown: true },
+                    history: { inDropdown: true },
+                  }}
                   editorStyle={{
                     border: "1px solid black",
                     position: "relative",

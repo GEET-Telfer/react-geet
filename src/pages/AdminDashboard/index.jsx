@@ -13,6 +13,8 @@ import {
 import { useWindowDimensions } from "../../hooks";
 import { AdminQuestionCtxProvider } from "../../context/AdminQuestionContext";
 
+import "./styles/styles.css";
+
 /**
  * Entry point for Admin Dashboard
  */
