@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Video, Article } from "./components";
 import axios from "axios";
 import { Container } from "react-bootstrap";
 import { useWindowDimensions } from "../../hooks";
+import Header from "../../components/Header";
 
 /**
  * Micro-learning module page
@@ -29,11 +30,19 @@ export default function MicroLearning(props) {
       });
   }, []);
 
+  const breadcrumbItems = [
+    { title: "Home", link: process.env.REACT_APP_HOST },
+    { title: "Microlearning directory", link : `${process.env.REACT_APP_HOST}/react-micro-learning-list`},
+  ];
+
   return (
-    <Container fluid="true" style={{ width: width * 0.9 }}>
-      <h1 align="center">{course?.title}</h1>
-      <Video title={course?.title} videoSrc={course?.video_link} />
-      <Article content={course?.content} />
-    </Container>
+    <Fragment>
+      <Header breadcrumbItems={breadcrumbItems} title={course?.title} />
+      <Container fluid="true" className={"mt-5"}>
+        {/* <h1 align="center">{course?.title}</h1> */}
+        <Video title={course?.title} videoSrc={course?.video_link} />
+        <Article content={course?.content} />
+      </Container>
+    </Fragment>
   );
 }

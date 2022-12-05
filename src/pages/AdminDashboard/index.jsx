@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import Header from "../../components/Header";
 
 import {
   CreateQuestion,
@@ -36,10 +37,15 @@ export default function AdminDashboard() {
     }
   };
 
+  const breadcrumbItems = [
+    { title: "Home", link: process.env.REACT_APP_HOST },
+  ];
+
   return (
     <AdminQuestionCtxProvider>
+      <Header breadcrumbItems={breadcrumbItems} title={"Admin Dashboard"} />
+      
       <Container fuild="true" style={{ width: width }}>
-        <h1>AdminDashboard</h1>
         <Row className={"element-control"}>
           {/* Nav dropdown control on Admin pandel display */}
           <Col sx={{ span: 2 }} md={{ span: 2 }}>

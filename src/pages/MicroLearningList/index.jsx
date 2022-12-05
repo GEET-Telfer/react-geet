@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 
 import axios from "axios";
 import { Container } from "react-bootstrap";
@@ -7,6 +7,7 @@ import { useWindowDimensions } from "../../hooks";
 import AssessmentSnippet from "./components/AssessmentSnippet";
 import Intro from "./components/Intro";
 import "./styles/styles.css";
+import Header from "../../components/Header";
 
 /**
  * MicroLearning Directory Entry point
@@ -23,20 +24,28 @@ export default function MicroLearningList(props) {
       });
   }, []);
 
+  const breadcrumbItems = [
+    { title: "Home", link: process.env.REACT_APP_HOST },
+  ];
+
   return (
-    <Container fluid="true" style={{ width: width * 0.9 }}>
-      <Intro />
+    <Fragment>
+      <Header breadcrumbItems={breadcrumbItems} title={"MicroLearning"} />
 
-      {Object.keys(courseList).map((index) => {
-        return (
-          <MicroLearningSnippet
-            key={courseList[index].id}
-            data={courseList[index]}
-          />
-        );
-      })}
+      <Container fluid="true" style={{ width: width * 0.9 }}>
+        <Intro />
 
-      <AssessmentSnippet />
-    </Container>
+        {Object.keys(courseList).map((index) => {
+          return (
+            <MicroLearningSnippet
+              key={courseList[index].id}
+              data={courseList[index]}
+            />
+          );
+        })}
+
+        <AssessmentSnippet />
+      </Container>
+    </Fragment>
   );
 }

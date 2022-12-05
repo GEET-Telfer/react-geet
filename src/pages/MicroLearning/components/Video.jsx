@@ -4,7 +4,7 @@ export default function Video(props) {
   const { videoSrc, title } = props;
 
   return (
-    <Row>
+    <Row className="mb-4">
       <Col>
         <div align="center">
           <iframe
