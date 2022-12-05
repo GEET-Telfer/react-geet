@@ -9,10 +9,7 @@ import Intro from "./components/Intro";
 import "./styles/styles.css";
 import Header from "../../components/Header";
 import geetLogo from "../../assets/geet-logo-large.png";
-<<<<<<< HEAD
 import "./styles/styles.css";
-=======
->>>>>>> 8d3175f (add sticky GEET icon)
 
 /**
  * MicroLearning Directory Entry point
