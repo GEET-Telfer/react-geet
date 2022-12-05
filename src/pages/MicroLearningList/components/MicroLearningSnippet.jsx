@@ -23,7 +23,7 @@ export default function MicroLearningSnippet(props) {
         <Stack gap={3}>
           <div className="mb-2">
             <a
-              href={`${process.env.REACT_APP_HOST}/react-micro-learning?id=${id}`}
+              href={`${process.env.REACT_APP_HOST}/${process.env.REACT_APP_MICRO_LEARNING_MODULE_ROUTE}?id=${id}`}
             >
               <h3>{title}</h3>
             </a>

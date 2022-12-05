@@ -83,7 +83,7 @@ export default function MicroLearningRow(props) {
           <Stack gap={3}>
             <div>
               <a
-                href={`${process.env.REACT_APP_HOST}/react-micro-learning?id=${id}`}
+                href={`${process.env.REACT_APP_HOST}/${process.env.REACT_APP_MICRO_LEARNING_MODULE_ROUTE}?id=${id}`}
               >
                 <h4>{title}</h4>
               </a>

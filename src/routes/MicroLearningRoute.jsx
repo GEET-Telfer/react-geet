@@ -3,8 +3,8 @@ import MicroLearning from "../pages/MicroLearning";
 import MicroLearningList from "../pages/MicroLearningList";
 
 const MicroLearningRoute = [
-  <Route key="react-micro-learning" path="/react-micro-learning" element={<MicroLearning />} />,
-  <Route key="react-micro-learning-list" path="/react-micro-learning-list" element={<MicroLearningList />} />,
+  <Route key="training-module" path={`/${process.env.REACT_APP_MICRO_LEARNING_MODULE_ROUTE}`} element={<MicroLearning />} />,
+  <Route key="training-modules" path={`/${process.env.REACT_APP_MICRO_LEARNING_MODULE_LIST_ROUTE}`} element={<MicroLearningList />} />,
 ];
 
 export default MicroLearningRoute;

@@ -20,8 +20,8 @@ export default function AssessmentSnippet() {
         </Col>
         <Col xs={12} md={6}>
           <Stack gap={3}>
-              <a href={`${process.env.REACT_APP_HOST}/react-assessment`}>
-                <h4>{"assessment"}</h4>
+              <a href={`${process.env.REACT_APP_HOST}/${process.env.REACT_APP_ASSESSMENT_ROUTE}`}>
+                <h4>{"Survey"}</h4>
               </a>
               <small>Estimation: {"15 minutes"}</small>
               <p

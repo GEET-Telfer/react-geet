@@ -3,7 +3,7 @@ import AdminDashboard from "../pages/AdminDashboard";
 
 
 const AdminDashboardRoute = [
-    <Route key="react-admin" path="/react-admin" element={<AdminDashboard />} />
+    <Route key="admin-dashboard" path={`/${process.env.REACT_APP_ADMIN_ROUTE}`} element={<AdminDashboard />} />
 ]
 
 export default AdminDashboardRoute;
