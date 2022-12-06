@@ -45,7 +45,7 @@ export default function MetaQuestionList(props) {
         return;
       }
     }
-    if (!flagFetch) {
+    if (flagFetch) {
       axios
         .get(`${process.env.REACT_APP_GATEWAY_ENDPOINT}/assessment/fetch-all`)
         .then((res) => {
@@ -61,7 +61,7 @@ export default function MetaQuestionList(props) {
           const now = new Date();
           const data = {
             questions,
-            ttl: now.getTime() + 30 * 60 * 1000, // ttl: 30 min
+            ttl: now.getTime() + 24 * 60 * 60 * 1000, // ttl: 24 hours
           };
 
           localStorage.setItem("assessment-question", JSON.stringify(data));
