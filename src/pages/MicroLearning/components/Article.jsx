@@ -21,8 +21,8 @@ export default function Article(props) {
   const content_ = content ? content : placeholder;
 
   return (
-    <Row>
-      <Col>
+    <Row className="m-2">
+      <Col md={{offset : 2, span : 8}}>
         <p dangerouslySetInnerHTML={{ __html: content_ }}></p>
       </Col>
     </Row>
