@@ -79,15 +79,15 @@ export default function MicroLearningRow(props) {
           </Ratio>
         </Col>
         {/* title and content */}
-        <Col xs={12} md={5}>
-          <Stack gap={3}>
+        <Col xs={12} md={6}>
+          <Stack gap={2}>
             <div>
               <a
                 href={`${process.env.REACT_APP_HOST}/${process.env.REACT_APP_MICRO_LEARNING_MODULE_ROUTE}?id=${id}`}
               >
                 <h4>{title}</h4>
               </a>
-              <small>Estimation: {duration || "15 minutes"}</small>
+              {/* <small>Estimation: {duration || "15 minutes"}</small> */}
             </div>
             <div>
               <b>Content:</b>
@@ -115,7 +115,7 @@ export default function MicroLearningRow(props) {
           <Button
             variant="danger"
             onClick={handleDeleteCourse}
-            style={{ marginLeft: 15 }}
+            style={{ marginLeft: 20 }}
           >
             DELETE
           </Button>

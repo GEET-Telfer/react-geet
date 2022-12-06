@@ -136,10 +136,11 @@ export default function MicroLearningModal(props) {
                     history: { inDropdown: true },
                   }}
                   editorStyle={{
-                    border: "1px solid black",
+                    border: "1px solid",
+                    boxShadow: "5px 5px #888888",
                     position: "relative",
                     overflow: "scroll",
-                    backgroundColor: "lightblue",
+                    backgroundColor: "#F5F5F5",
                     height: "400px",
                   }}
                 />

@@ -90,7 +90,7 @@ export default function QuestionRow(props) {
           <Button
             variant={"danger"}
             onClick={handleQuestionDeletion}
-            style={{ marginLeft: 15 }}
+            style={{ marginLeft: 20 }}
           >
             DELETE
           </Button>

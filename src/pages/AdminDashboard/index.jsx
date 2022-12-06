@@ -79,7 +79,7 @@ export default function AdminDashboard() {
             </Nav>
           </Col>
           {/* Admin pandel content, which is toggled by dropdown buttons */}
-          <Col sx={{ span: 8 }} md={{ span: 8 }}>
+          <Col sx={{ span: 10 }} md={{ span: 10 }}>
             <Container>
               {activeKey === "assessment-create" && <CreateQuestion />}
 
