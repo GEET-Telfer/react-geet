@@ -4,6 +4,7 @@ import axios from "axios";
 import { Container } from "react-bootstrap";
 import { useWindowDimensions } from "../../hooks";
 import Header from "../../components/Header";
+import geetLogo from "../../assets/geet-logo-large.png";
 
 /**
  * Micro-learning module page
@@ -38,6 +39,9 @@ export default function MicroLearning(props) {
   return (
     <Fragment>
       <Header breadcrumbItems={breadcrumbItems} title={course?.title} />
+      
+      <img className={"sticky-icon"} src={geetLogo} alt="GEET LOGO" />
+
       <Container fluid="true" className={"mt-5"}>
         {/* <h1 align="center">{course?.title}</h1> */}
         <Video title={course?.title} videoSrc={course?.video_link} />

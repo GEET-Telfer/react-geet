@@ -8,6 +8,8 @@ import AssessmentSnippet from "./components/AssessmentSnippet";
 import Intro from "./components/Intro";
 import "./styles/styles.css";
 import Header from "../../components/Header";
+import geetLogo from "../../assets/geet-logo-large.png";
+import "./styles/styles.css";
 
 /**
  * MicroLearning Directory Entry point
@@ -32,7 +34,9 @@ export default function MicroLearningList(props) {
     <Fragment>
       <Header breadcrumbItems={breadcrumbItems} title={"MicroLearning"} />
 
-      <Container fluid="true" style={{ width: width * 0.9 }}>
+      <img className={"sticky-icon"} src={geetLogo} alt="GEET LOGO" />
+
+      <Container fluid="true">
         <Intro />
 
         {Object.keys(courseList).map((index) => {

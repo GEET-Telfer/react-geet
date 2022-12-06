@@ -5,6 +5,7 @@ import "./styles/styles.css";
 import { ProgressCtxProvider } from "../../context/ProgressContext";
 import { useCookies } from "react-cookie";
 import Header from "../../components/Header";
+import geetLogo from "../../assets/geet-logo-large.png";
 
 export default function Asssessment() {
   const [cookies, setCookie] = useCookies();
@@ -20,6 +21,9 @@ export default function Asssessment() {
   return (
     <ProgressCtxProvider>
       <Header breadcrumbItems={breadcrumbItems} title={"Surveys"} />
+
+      <img className={"sticky-icon"} src={geetLogo} alt="GEET LOGO" />
+
       <div>
       <Container align="center" className={"container-result"} fluid={"xxl"}>
         {!consent && (

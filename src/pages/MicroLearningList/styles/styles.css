@@ -1,4 +1,8 @@
 .snippet {
-  background-color: #f6f4f3;
   border-radius: 5px;
+}
+.snippet a,
+u {
+  text-decoration: none;
+  color: black;
 }

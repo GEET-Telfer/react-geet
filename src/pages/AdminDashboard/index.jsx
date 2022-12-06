@@ -15,6 +15,7 @@ import { useWindowDimensions } from "../../hooks";
 import { AdminQuestionCtxProvider } from "../../context/AdminQuestionContext";
 
 import "./styles/styles.css";
+import geetLogo from "../../assets/geet-logo-large.png";
 
 /**
  * Entry point for Admin Dashboard
@@ -45,6 +46,8 @@ export default function AdminDashboard() {
     <AdminQuestionCtxProvider>
       <Header breadcrumbItems={breadcrumbItems} title={"Admin Dashboard"} />
       
+      <img className={"sticky-icon"} src={geetLogo} alt="GEET LOGO" />
+
       <Container fuild="true" style={{ width: width }}>
         <Row className={"element-control"}>
           {/* Nav dropdown control on Admin pandel display */}

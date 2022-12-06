@@ -5,12 +5,12 @@ export default function Intro() {
   return (
     <Fragment>
       <Row>
-        <Col xs={8} md={8}>
+        <Col xs={8} md={{offset: 2, span:8}}>
           <h1>How to get started?</h1>
         </Col>
       </Row>
       <Row>
-        <Col xs={0} md={8}>
+        <Col xs={0} md={{offset: 2, span:8}}>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Sed

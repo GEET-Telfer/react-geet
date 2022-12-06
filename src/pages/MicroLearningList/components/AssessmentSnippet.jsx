@@ -6,10 +6,10 @@ import Article from "../../MicroLearning/components/Article";
 export default function AssessmentSnippet() {
 
     return(
-        <Row className={"mb-3 snippet"}>
-        <Col xs={12} md={4}>
+        <Row className={"mb-3 ml-2 snippet"} >
+        <Col xs={12} md={{offset: 2, span:4}}>
           <Ratio aspectRatio={"4x3"}>
-            <a href={`${process.env.REACT_APP_HOST}/react-assessment`}>
+            <a href={`${process.env.REACT_APP_HOST}/${process.env.REACT_APP_ASSESSMENT_ROUTE}`}>
               <img 
                 src="https://archive.researchworld.com/wp-content/uploads/2017/09/fundamentals-of-questionnaire-writing.jpg"
                 alt="assessment"
@@ -18,16 +18,16 @@ export default function AssessmentSnippet() {
               </a>
           </Ratio>
         </Col>
-        <Col xs={12} md={6}>
-          <Stack gap={3}>
+        <Col xs={12} md={5}>
+          <Stack gap={2}>
               <a href={`${process.env.REACT_APP_HOST}/${process.env.REACT_APP_ASSESSMENT_ROUTE}`}>
                 <h4>{"Survey"}</h4>
               </a>
-              <small>Estimation: {"15 minutes"}</small>
+              {/* <small>Estimation: {"15 minutes"}</small> */}
               <p
                 style={{
                   whiteSpace: "breakSpace",
-                  maxHeight: "200px",
+                  maxHeight: "170px",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
                   wordWrap: "break-word",

@@ -1,3 +1,15 @@
 #app {
     width: 100%;
 }
+
+img.sticky-icon {
+    position: -webkit-sticky;
+    /* position: sticky; */
+    position : fixed;
+    left: 90%;
+    top: 300px;
+    display: inline;
+    /* top: 300px;
+    float: right; */
+    z-index : -1;
+  }
