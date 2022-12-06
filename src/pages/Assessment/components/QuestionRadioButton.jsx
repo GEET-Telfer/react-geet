@@ -1,48 +1,57 @@
-import { Fragment, useContext } from 'react';
-import Form from 'react-bootstrap/Form';
-import { ProgressCtx } from '../../../context/ProgressContext';
+import { Fragment, useContext } from "react";
+import { Col } from "react-bootstrap";
+import Form from "react-bootstrap/Form";
+import { ProgressCtx } from "../../../context/ProgressContext";
 /**
  * Radio button module for Assessment questions.
  */
 export default function QuestionRadioButton(props) {
-    const { isFirst, isLast, id, index, componentName } = props;
+  const { isFirst, isLast, id, index, componentName } = props;
 
-    const {progress, addItem2Progress} = useContext(ProgressCtx);
+  const { progress, addItem2Progress } = useContext(ProgressCtx);
 
-    const handleRadioButtonClick = (event) => {
-        const eleId = event.target.id.split("-");
-        const questionId = eleId[1];
-        const index = eleId[2];
+  const handleRadioButtonClick = (event) => {
+    const eleId = event.target.id.split("-");
+    const questionId = eleId[1];
+    const index = eleId[2];
 
-        const progressItem = {
-            id: questionId,
-            value: parseInt(index) + 1,
-            component : componentName
-        };
+    const progressItem = {
+      id: questionId,
+      value: parseInt(index) + 1,
+      component: componentName,
+    };
 
-        addItem2Progress(progressItem);
-    }
+    addItem2Progress(progressItem);
+  };
 
-    return (
-
-        <Fragment>
-            {
-                isFirst && <Form.Label className="assessment-question-label">Disagree</Form.Label>
-            }
-            <Form.Check
-                className={`mb-3 radio-questions ${progress[id] && "answered"}`}
-                inline
-                name={`scoring-${id}`}
-                type="radio"
-                id={`scoring-${id}-${index}`}
-                onClick={handleRadioButtonClick}
-                onChange={() => {}}
-                checked = {progress[id]?.value === (index + 1)}
-            />
-            {
-                isLast && <Form.Label className="assessment-question-label">Agree</Form.Label>
-            }
-        </Fragment>
-
-    )
+  return (
+    <Fragment>
+      {/* {isFirst && (
+        <Form.Label className="d-none d-md-inline-block assessment-question-label">
+          Disagree
+        </Form.Label>
+      )} */}
+      {/* <Col
+        xs={{ span: 2, offset: index === 0 ? 1 : 0 }}
+        sm={{ span: 2, offset: index === 0 ? 1 : 0 }}
+        md={{ span: 2 }}
+      > */}
+        <Form.Check
+          className={`mb-3 col-1 radio-questions ${progress[id] ? "answered" : ""}`}
+          inline
+          name={`scoring-${id}`}
+          type="radio"
+          id={`scoring-${id}-${index}`}
+          onClick={handleRadioButtonClick}
+          onChange={() => {}}
+          checked={progress[id]?.value === index + 1}
+        />
+      {/* </Col> */}
+      {/* {isLast && (
+        <Form.Label className="d-none d-md-inline-block assessment-question-label">
+          Agree
+        </Form.Label>
+      )} */}
+    </Fragment>
+  );
 }

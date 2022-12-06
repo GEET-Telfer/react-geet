@@ -1,45 +1,60 @@
+import { Col, Container, Row, Form } from "react-bootstrap";
 import QuestionRadioButton from "./QuestionRadioButton";
 
 /**
  * Quesation List is composed of Assessment Category(title), descriptions and radio buttons
  */
 export default function QuestionList(props) {
-    const { questionList, componentName } = props;
+  const { questionList, componentName } = props;
 
-    const questionRow = (question) => {
-        const radioButtons = [];
-        for (let i = 0; i < parseInt(question.scoring); i++) {
-            radioButtons.push(
-            <QuestionRadioButton
-                componentName={componentName}
-                key={`${question.id}-${i}`}
-                isFirst={i === 0}
-                isLast={i === parseInt(question.scoring) - 1}
-                id={question.id}
-                index={i}
-            />)
-        }
-
-        return (
-            <div align="center" key={question.id} >
-                <h6 >{question.description}</h6>
-                {
-                    radioButtons.map((button) => {
-                        return button;
-                    })
-                }
-
-            </div>
-        )
+  const questionRow = (question) => {
+    const radioButtons = [];
+    for (let i = 0; i < parseInt(question.scoring); i++) {
+      radioButtons.push(
+        <QuestionRadioButton
+          componentName={componentName}
+          key={`${question.id}-${i}`}
+          isFirst={i === 0}
+          isLast={i === parseInt(question.scoring) - 1}
+          id={question.id}
+          index={i}
+        />
+      );
     }
 
     return (
-        <div>
-            {
-                questionList.map((question) => {
-                    return questionRow(question);
-                })
-            }
-        </div>
-    )
+      <div key={question.id}>
+        <h6>{question.description}</h6>
+        
+          <Form.Label className="d-none d-md-inline assessment-question-label">
+            Disagree
+          </Form.Label>
+          {radioButtons.map((button) => {
+            return button;
+          })}
+
+          <Form.Label className="d-none d-md-inline assessment-question-label">
+            Agree
+          </Form.Label>
+
+        <Row className="d-md-none d-sm-block d-xs-block" xs={12} sm={12}>
+          <Col md={0} className="d-inline col-2">
+            <label>Disagree</label>
+          </Col>
+          <Col md={0} className="d-inline col-8"></Col>
+          <Col md={0} className="d-inline col-2">
+            <label>Agree</label>
+          </Col>
+        </Row>
+      </div>
+    );
+  };
+
+  return (
+    <Container className="mb-3">
+      {questionList.map((question) => {
+        return questionRow(question);
+      })}
+    </Container>
+  );
 }
