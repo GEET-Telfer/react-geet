@@ -7,6 +7,16 @@ import { Col, Row } from "react-bootstrap";
 import { ProgressCtx } from "../../../context/ProgressContext";
 import { useWindowDimensions } from "../../../hooks";
 
+const componentDescriptions = {
+  Commitment: `Degree to which the organization's leaders champion inclusive culture and programming. Organizational leaders (e.g., program managers, executives)`,
+  Expertise : `Degree to which personnel are knowledgeable about equity, diversity, inclusion and gender influences in venture creation and entrepreneurship education. Program and course personnel`,
+  Resources : `Degree to which programming increases access to resources including other support services. Program and course personnel`,
+  Design : `Degree to which program design focuses on the needs of diverse learners.  Program and course personnel`,
+  Development : `Degree to which program content aligns with the learning needs of diverse participants. Program and course personnel`,
+  Delivery : `Degree to which delivery methods respond to the needs of diverse participants. Program and course personnel`,
+  Evaluation : `Degree to which feedback (monitoring and evaluation data) informs programs and courses.Program evaluators`
+};
+
 /**
  * Entry point for assessment questions, which fetches and saves assessment questions to LocalStoarge
  * The MetaQuestionList is composed of toggle buttons for question list and question lists.
@@ -129,6 +139,7 @@ export default function MetaQuestionList(props) {
               <h1 className={"mb-3"} align="center">
                 {key}
               </h1>
+              <h6 className={"mb-3"} align="center">{componentDescriptions[key]}</h6>
               <QuestionList componentName={key} questionList={questions[key]} />
             </div>
           );
