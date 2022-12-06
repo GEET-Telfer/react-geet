@@ -10,17 +10,17 @@ export default function MicroLearningSnippet(props) {
 
   return (
     <Row className={"mb-5 ml-2 snippet"}>
-      <Col xs={12} md={{offset: 2, span:4}}>
-          <Ratio aspectRatio={"4x3"}>
-            <iframe
-              className={"img-fluid rounded"}
-              title={title}
-              src={`${video_link}`}
-            />
-          </Ratio>
+      <Col xs={12} md={{ offset: 2, span: 4 }}>
+        <Ratio aspectRatio={"4x3"}>
+          <iframe
+            className={"img-fluid rounded"}
+            title={title}
+            src={`${video_link}`}
+          />
+        </Ratio>
       </Col>
       <Col xs={12} md={5}>
-        <Stack gap={2}>
+        <Stack className="ml-2" gap={2}>
           <div className="mb-2">
             <a
               href={`${process.env.REACT_APP_HOST}/${process.env.REACT_APP_MICRO_LEARNING_MODULE_ROUTE}?id=${id}`}
