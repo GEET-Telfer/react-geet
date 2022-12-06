@@ -65,7 +65,7 @@ export default function MetaQuestionList(props) {
         return;
       }
     }
-    if (flagFetch) {
+    // if (flagFetch === true) {
       axios
         .get(`${process.env.REACT_APP_GATEWAY_ENDPOINT}/assessment/fetch-all`)
         .then((res) => {
@@ -92,7 +92,7 @@ export default function MetaQuestionList(props) {
         .catch((err) => {
           console.error(err);
         });
-    }
+    // }
   }, [hasConsent]);
 
   useEffect(() => {
@@ -123,7 +123,7 @@ export default function MetaQuestionList(props) {
   return (
     <Row
       className="justify-content-md-center mt-3"
-      style={{minHeight : "85vh"}}
+      style={{minHeight : "80vh"}}
     >
       <Col
         xs={0}
