@@ -20,7 +20,7 @@ export default function Asssessment() {
 
   return (
     <ProgressCtxProvider>
-      <Header breadcrumbItems={breadcrumbItems} title={"Survey"} />
+      <Header breadcrumbItems={breadcrumbItems} title={"Scorecard"} />
 
       <img className={"sticky-icon"} src={geetLogo} alt="GEET LOGO" />
 

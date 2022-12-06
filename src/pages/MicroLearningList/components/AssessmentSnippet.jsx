@@ -24,7 +24,7 @@ export default function AssessmentSnippet() {
           <a
             href={`${process.env.REACT_APP_HOST}/${process.env.REACT_APP_ASSESSMENT_ROUTE}`}
           >
-            <h4>{"Survey"}</h4>
+            <h4>{"Scorecard"}</h4>
           </a>
           {/* <small>Estimation: {"15 minutes"}</small> */}
           <p
