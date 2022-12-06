@@ -15,7 +15,7 @@ export default function Asssessment() {
 
   const breadcrumbItems = [
     { title: "Home", link: process.env.REACT_APP_HOST },
-    { title: "Training Modules", link: `${process.env.REACT_APP_HOST}/${process.env.REACT_APP_MICRO_LEARNING_MODULE_LIST_ROUTE}` },
+    { title: "Microlearning directory", link: `${process.env.REACT_APP_HOST}/${process.env.REACT_APP_MICRO_LEARNING_MODULE_LIST_ROUTE}` },
   ];
 
   return (
