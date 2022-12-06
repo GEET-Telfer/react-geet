@@ -15,11 +15,12 @@ export default function QuestionList(props) {
             <Container className={(questionList.length === 0) ? "d-none" : "d-block"}>
                 <h1>{component}</h1>
                 <Row>
-                    <Col sx={6} md={6}><h5>Question</h5></Col>
-                    <Col sx={1} md={1}><h5>N/A</h5></Col>
-                    <Col sx={1} md={1}><h5>Scoring</h5></Col>
-                    <Col sx={12} md={1}></Col>
-                    <Col sx={12} md={1}></Col>
+                    <Col sx={6} md={6}><h5>Statement</h5></Col>
+                    {/* <Col sx={1} md={1}><h5>N/A</h5></Col>
+                    <Col sx={1} md={1}><h5>Scoring</h5></Col> */}
+                    <Col sx={12} md={2}><h5>Status</h5></Col>
+                    <Col sx={12} md={2}></Col>
+                    <Col sx={12} md={2}></Col>
                 </Row>
                 {
                     questions.map((question, index) => {

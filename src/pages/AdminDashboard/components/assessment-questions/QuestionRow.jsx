@@ -75,22 +75,26 @@ export default function QuestionRow(props) {
         <Col sx={6} md={6}>
           {question.description}
         </Col>
-        <Col sx={1} md={1}>
+        {/* <Col sx={1} md={1}>
           {question.has_NA == true ? "true" : "false"}
         </Col>
         <Col sx={1} md={1}>
           {question.scoring}
+        </Col> */}
+        <Col sx={6} md={2}>
+          {"Draft"}
         </Col>
-        <Col sx={12} md={1}>
+
+        <Col sx={12} md={2}>
           <Button variant={"primary"} onClick={handleModalShow}>
             UPDATE
           </Button>
         </Col>
-        <Col sx={12} md={1}>
+        <Col sx={12} md={2}>
           <Button
             variant={"danger"}
             onClick={handleQuestionDeletion}
-            style={{ marginLeft: 20 }}
+            // style={{ marginLeft: 20 }}
           >
             DELETE
           </Button>

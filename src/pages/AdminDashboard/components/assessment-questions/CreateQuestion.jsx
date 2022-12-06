@@ -73,7 +73,7 @@ export default function CreateQuestion(props) {
         <Form id="create-question-form">
           <Form.Group as={Row} className="mb-3">
             <Col xs={12}>
-              <Form.Label>Question Component</Form.Label>
+              <Form.Label>Component</Form.Label>
               <Form.Control
                 as={"select"}
                 onChange={(event) => {
@@ -100,12 +100,29 @@ export default function CreateQuestion(props) {
             onChange={(event) => (descriptionRef.current = event.target.value)}
           >
             <Col>
-              <Form.Label>Question Description</Form.Label>
+              <Form.Label>Statement</Form.Label>
               <Form.Control as="textarea" rows={3} />
             </Col>
           </Form.Group>
 
           <Form.Group as={Row} className="mb-3">
+            <Col xs={12}>
+              <Form.Label>Statement Status</Form.Label>
+              <Form.Control
+                as={"select"}
+                onChange={(event) => {
+                  // setComponent(event.target.value);
+                }}
+              >
+                <option value="draft">Draft</option>
+                <option value="under_review">Under Review</option>
+                <option value="publish">Publish</option>
+              </Form.Control>
+            </Col>
+          </Form.Group>
+          
+          {/* temporarily hide point scale as 5-point scale is fixated */}
+          {/* <Form.Group as={Row} className="mb-3">
             <Col xs="12">
               <Form.Label> Scoring </Form.Label>
               <RangeSlider
@@ -118,9 +135,10 @@ export default function CreateQuestion(props) {
                 tooltipPlacement={"top"}
               />
             </Col>
-          </Form.Group>
+          </Form.Group> */}
 
-          <Form.Group as={Row} className="mb-3">
+          {/* temporarily hide hasNA as No N/A user response will be taken in action */}
+          {/* <Form.Group as={Row} className="mb-3">
             <Col xs={12}>
               <Form.Switch
                 onChange={(event) => setHasNA(!hasNA)}
@@ -129,9 +147,9 @@ export default function CreateQuestion(props) {
                 label="Has N/A"
               />
             </Col>
-          </Form.Group>
+          </Form.Group> */}
           <Form.Group as={Row} className="mb-3">
-            <Col xs={12}>
+            <Col>
               <Button variant="primary" onClick={handleCreateQuestion}>
                 Submit
               </Button>

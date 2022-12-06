@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState, useRef, useContext } from "react";
 import { Row, Col, Form, Modal, Button } from "react-bootstrap";
-import RangeSlider from "react-bootstrap-range-slider";
+// import RangeSlider from "react-bootstrap-range-slider";
 import { AdminQuestionCtx } from "../../../../context/AdminQuestionContext";
 
 /**
@@ -12,7 +12,8 @@ export default function QuestionModal(props) {
   const { id, component, description, has_NA, scoring } = question;
 
   // Context
-  const { needUpdate, setNeedUpdate, setShowEdit } = useContext(AdminQuestionCtx);
+  const { needUpdate, setNeedUpdate, setShowEdit } =
+    useContext(AdminQuestionCtx);
 
   // State
   const [scoring_, setScoring] = useState(scoring);
@@ -37,7 +38,7 @@ export default function QuestionModal(props) {
         data
       )
       .then((res) => {
-        if(res.status === 200) {
+        if (res.status === 200) {
           alert("Successfully updated");
           setNeedUpdate(!needUpdate); // invoke question list re-rendering
           setShowEdit(true);
@@ -71,7 +72,7 @@ export default function QuestionModal(props) {
             onChange={(event) => (descriptionRef.current = event.target.value)}
           >
             <Col>
-              <Form.Label>Question Description</Form.Label>
+              <Form.Label>Statement</Form.Label>
               <Form.Control
                 as="textarea"
                 rows={3}
@@ -81,6 +82,22 @@ export default function QuestionModal(props) {
           </Form.Group>
 
           <Form.Group as={Row} className="mb-3">
+            <Col xs={12}>
+              <Form.Label>Statement Status</Form.Label>
+              <Form.Control
+                as={"select"}
+                onChange={(event) => {
+                  // setComponent(event.target.value);
+                }}
+              >
+                <option value="draft">Draft</option>
+                <option value="under_review">Under Review</option>
+                <option value="publish">Publish</option>
+              </Form.Control>
+            </Col>
+          </Form.Group>
+          {/* temporarily hide point scale as 5-point scale is fixated */}
+          {/* <Form.Group as={Row} className="mb-3">
             <Col xs="12">
               <Form.Label> Scoring </Form.Label>
               <RangeSlider
@@ -93,9 +110,10 @@ export default function QuestionModal(props) {
                 tooltipPlacement={"top"}
               />
             </Col>
-          </Form.Group>
+          </Form.Group> */}
 
-          <Form.Group as={Row} className="mb-3">
+          {/* temporarily hide hasNA as No N/A user response will be taken in action */}
+          {/* <Form.Group as={Row} className="mb-3">
             <Col xs={12}>
               <Form.Switch
                 onChange={(event) => setHasNA(!hasNA)}
@@ -104,7 +122,7 @@ export default function QuestionModal(props) {
                 label="Has N/A"
               />
             </Col>
-          </Form.Group>
+          </Form.Group> */}
         </Form>
       </Modal.Body>
 
