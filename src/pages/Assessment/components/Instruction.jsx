@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useCookies } from 'react-cookie';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import Article from "../../MicroLearning/components/Article";
+import InstructionContent from "./InstructionContent";
 
 /**
  * Consent and Instruction Page for assessment questions.
@@ -40,15 +40,15 @@ export default function Instruction(props) {
                 size={'xl'}
                 animation
             >
-                <Modal.Header align="center" closeButton>
-                    <h1>Instructions & Privacy Consent</h1>
+                <Modal.Header closeButton>
+                    <h1 align="center">Consent to participate</h1>
                 </Modal.Header>
                 <Modal.Body scrollable="true" >
-                    <Article />
+                    <InstructionContent />
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
-                        Close
+                        Back
                     </Button>
 
                     <Button variant="primary" onClick={handleAgree}>
@@ -56,6 +56,12 @@ export default function Instruction(props) {
                     </Button>
                 </Modal.Footer>
             </Modal>
+
+            <div className='btn-open-instruction'>
+                <Button  variant="primary" onClick={(e) => {setShow(true)}}>
+                    Consent to proceed.
+                </Button>
+            </div>
         </>
     )
 }
