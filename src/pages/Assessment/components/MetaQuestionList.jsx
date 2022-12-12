@@ -6,15 +6,16 @@ import QuestionButton from "./QuestionButton";
 import { Col, Row } from "react-bootstrap";
 import { ProgressCtx } from "../../../context/ProgressContext";
 import { useWindowDimensions } from "../../../hooks";
+import ScorecardInstruction from "./ScorecardInstruction";
 
 const componentDescriptions = {
   Commitment: `Degree to which the organization's leaders champion inclusive culture and programming. Organizational leaders (e.g., program managers, executives)`,
-  Expertise : `Degree to which personnel are knowledgeable about equity, diversity, inclusion and gender influences in venture creation and entrepreneurship education. Program and course personnel`,
-  Resources : `Degree to which programming increases access to resources including other support services. Program and course personnel`,
-  Design : `Degree to which program design focuses on the needs of diverse learners.  Program and course personnel`,
-  Development : `Degree to which program content aligns with the learning needs of diverse participants. Program and course personnel`,
-  Delivery : `Degree to which delivery methods respond to the needs of diverse participants. Program and course personnel`,
-  Evaluation : `Degree to which feedback (monitoring and evaluation data) informs programs and courses.Program evaluators`
+  Expertise: `Degree to which personnel are knowledgeable about equity, diversity, inclusion and gender influences in venture creation and entrepreneurship education. Program and course personnel`,
+  Resources: `Degree to which programming increases access to resources including other support services. Program and course personnel`,
+  Design: `Degree to which program design focuses on the needs of diverse learners.  Program and course personnel`,
+  Development: `Degree to which program content aligns with the learning needs of diverse participants. Program and course personnel`,
+  Delivery: `Degree to which delivery methods respond to the needs of diverse participants. Program and course personnel`,
+  Evaluation: `Degree to which feedback (monitoring and evaluation data) informs programs and courses.Program evaluators`,
 };
 
 /**
@@ -49,7 +50,7 @@ export default function MetaQuestionList(props) {
         console.log("Invalidate localstorage for new data");
         flagFetch = true;
       } else {
-        setToggleQuestions(Object.keys(data.questions));
+        setToggleQuestions(["Instruction", ...Object.keys(data.questions)]);
         setQuestions(data.questions);
         console.log("Load from LocalStorage");
         return;
@@ -75,7 +76,8 @@ export default function MetaQuestionList(props) {
           };
 
           localStorage.setItem("assessment-question", JSON.stringify(data));
-          setToggleQuestions(Object.keys(data.questions));
+          // setToggleQuestions(Object.keys(data.questions));
+          setToggleQuestions(["Instruction", ...Object.keys(data.questions)]);
           setQuestions(data.questions);
         })
         .catch((err) => {
@@ -119,6 +121,12 @@ export default function MetaQuestionList(props) {
         md={{ offset: 2, span: 2 }}
         lg={{ offset: 2, span: 2 }}
       >
+        <QuestionButton
+          key={"instruction"}
+          description={"Instruction"}
+          handleQuestionButton={handleQuestionButton}
+        />
+
         {Object.keys(questions).map((component) => {
           return (
             <QuestionButton
@@ -130,16 +138,22 @@ export default function MetaQuestionList(props) {
         })}
       </Col>
       <Col>
+        <div className="Instruction">
+          <ScorecardInstruction />
+        </div>
         {Object.keys(questions).map((key) => {
           return (
             <div
-              className={`${key} ${key === "Commitment" ? "" : "hide"} `}
+              className={`${key} ${key === "Instruction" ? "" : "hide"} `}
               key={key}
             >
               <h1 className={"mb-3"} align="center">
                 {key}
               </h1>
-              <h6 className={"mb-3"} align="center">{componentDescriptions[key]}</h6>
+              <h6 className={"mb-3"} align="left">
+                {componentDescriptions[key]}
+              </h6>
+              <hr />
               <QuestionList componentName={key} questionList={questions[key]} />
             </div>
           );
