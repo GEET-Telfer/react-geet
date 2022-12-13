@@ -36,6 +36,9 @@ input[type="radio"] {
 .radio-questions input[type="radio"] {
   display: inline-block !important;
   border: @radioBorderDefault !important;
+  width: @lgRadioBtnSize !important;
+  height: @lgRadioBtnSize !important;
+  vertical-align: bottom;
   &:hover {
     background-color: @radioBackgroundColorHovered !important;
   }
@@ -46,11 +49,11 @@ input[type="radio"] {
 }
 
 
-input[type="radio"][id^='scoring'] {
-  width: @lgRadioBtnSize !important;
-  height: @lgRadioBtnSize !important;
-  vertical-align: bottom;
-}
+// input[type="radio"][id^='scoring'] {
+//   width: @lgRadioBtnSize !important;
+//   height: @lgRadioBtnSize !important;
+//   vertical-align: bottom;
+// }
 
 .btn-side-nav {
   min-width : 75px;

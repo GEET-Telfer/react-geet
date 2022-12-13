@@ -39,7 +39,7 @@ export default function MetaQuestionList(props) {
   useEffect(() => {
     const loadFromLocalStorage = localStorage.getItem("assessment-question");
 
-    let flagFetch = false;
+    let flagFetch = true;
     if (loadFromLocalStorage) {
       const data = JSON.parse(loadFromLocalStorage);
 
@@ -48,11 +48,11 @@ export default function MetaQuestionList(props) {
       if (now.getTime() > data.ttl) {
         localStorage.removeItem("assessment-question");
         console.log("Invalidate localstorage for new data");
-        flagFetch = true;
       } else {
         setToggleQuestions(["Instruction", ...Object.keys(data.questions)]);
         setQuestions(data.questions);
         console.log("Load from LocalStorage");
+        flagFetch = false;
         return;
       }
     }

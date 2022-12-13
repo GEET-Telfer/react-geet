@@ -9,21 +9,22 @@ export default function QuestionList(props) {
 
   const questionRow = (question) => {
     const radioButtons = [];
-    for (let i = 0; i < parseInt(question.scoring); i++) {
+    const SCORE_SCALE = 5;
+    for (let i = 0; i < SCORE_SCALE; i++) {
       radioButtons.push(
         <QuestionRadioButton
           componentName={componentName}
-          key={`${question.id}-${i}`}
+          key={`${question.uuid}-${i}`}
           isFirst={i === 0}
-          isLast={i === parseInt(question.scoring) - 1}
-          id={question.id}
+          isLast={i === SCORE_SCALE - 1}
+          uuid={question.uuid}
           index={i}
         />
       );
     }
 
     return (
-      <div key={question.id}>
+      <div key={question.uuid}>
         <h6>{question.description}</h6>
         
           <Form.Label className="d-none d-md-inline assessment-question-label">

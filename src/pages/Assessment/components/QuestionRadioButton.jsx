@@ -6,14 +6,14 @@ import { ProgressCtx } from "../../../context/ProgressContext";
  * Radio button module for Assessment questions.
  */
 export default function QuestionRadioButton(props) {
-  const { isFirst, isLast, id, index, componentName } = props;
+  const { isFirst, isLast, uuid, index, componentName } = props;
 
   const { progress, addItem2Progress } = useContext(ProgressCtx);
 
   const handleRadioButtonClick = (event) => {
-    const eleId = event.target.id.split("-");
-    const questionId = eleId[1];
-    const index = eleId[2];
+    const eleId = event.target.id.split("_");
+    const questionId = eleId[0];
+    const index = eleId[1];
 
     const progressItem = {
       id: questionId,
@@ -26,32 +26,16 @@ export default function QuestionRadioButton(props) {
 
   return (
     <Fragment>
-      {/* {isFirst && (
-        <Form.Label className="d-none d-md-inline-block assessment-question-label">
-          Disagree
-        </Form.Label>
-      )} */}
-      {/* <Col
-        xs={{ span: 2, offset: index === 0 ? 1 : 0 }}
-        sm={{ span: 2, offset: index === 0 ? 1 : 0 }}
-        md={{ span: 2 }}
-      > */}
         <Form.Check
-          className={`mb-3 col-1 radio-questions ${progress[id] ? "answered" : ""}`}
+          className={`mb-3 col-1 radio-questions ${progress[uuid] ? "answered" : ""}`}
           inline
-          name={`scoring-${id}`}
+          name={`scoring-${uuid}`}
           type="radio"
-          id={`scoring-${id}-${index}`}
+          id={`${uuid}_${index}`}
           onClick={handleRadioButtonClick}
           onChange={() => {}}
-          checked={progress[id]?.value === index + 1}
+          checked={progress[uuid]?.value === index + 1}
         />
-      {/* </Col> */}
-      {/* {isLast && (
-        <Form.Label className="d-none d-md-inline-block assessment-question-label">
-          Agree
-        </Form.Label>
-      )} */}
     </Fragment>
   );
 }
