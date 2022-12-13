@@ -15,7 +15,7 @@ export default function ViewMicroLearningModules(props) {
 
   useEffect(() => {
     // fetch micro-learning resources
-    axios.get(`${process.env.REACT_APP_GATEWAY_ENDPOINT}/course/fetch-all`).then((res) => {
+    axios.get(`${process.env.REACT_APP_GATEWAY_ENDPOINT}/admin/course/fetch-all`).then((res) => {
       setCourseList(res.data.data);
     });
   }, [needUpdate]);
