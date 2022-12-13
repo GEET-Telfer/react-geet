@@ -18,9 +18,9 @@ export default function Result(props) {
 
     // report data
     const scores = calComponentScore(progress);
-    const overallScore = calOverallSore(scores);
-    const score = overallScore.sum / overallScore.size;
-    let report = { overall : mapScoreToLabel(score) };
+    const overallScoreArr = calOverallSore(scores);
+    const score = overallScoreArr.sum / overallScoreArr.size;
+    let report = { Overall : mapScoreToLabel(overallScoreArr) };
     for (let key in scores) { report[key] =  mapScoreToLabel(scores[key]) }
 
     // Ref
@@ -80,14 +80,14 @@ export default function Result(props) {
                     {
                         Object.keys(report).map((key) => {
                             // scores
-                            const score = key === 'overall' ? overallScore : scores[key];
-                            const meanScore = score?.sum / score?.size;
-                            const now = (100 * meanScore / (key === 'overall' ? 7 : 5)).toFixed(2);
-                            const status = report[key] === "WARNING" ? "danger" : 
-                                            report[key] === "OK" ? "warning" : "success";
+                            const score = key === 'Overall' ? overallScoreArr.sum : scores[key].sum;
+                            const numQuestions = key === "Overall" ? overallScoreArr.size : scores[key].size;
+                            const now = (100 * score / (5 * numQuestions)).toFixed(2);
+                            const status = report[key] === "Low" ? "danger" : 
+                            report[key] === "Moderate" ? "warning" : "success";
                             return (
                             <div key={key}>
-                                {key} : {report[key]}
+                                {key} : {report[key]} Performance
                                 <ProgressBar animated striped variant={status} label={`${now}%`} now={now} />
                             </div>);
                         })
@@ -98,20 +98,26 @@ export default function Result(props) {
                             Please fill your email to receive feedback.
                         </Form.Text>
                     </Form.Group>
+                    <Row>
+                        <Col xs={12} sm={12} md={{span : 2}}>
+                            <Button
+                                variant={"blank"}
+                                className={"btn-user-response"}
+                                onClick={handleUserResponseReset}>
+                                Reset
+                            </Button>
+                        </Col>
 
-                    <Button
-                        variant={"blank"}
-                        className={"btn-user-response float-start"}
-                        onClick={handleUserResponseReset}>
-                        Reset
-                    </Button>
+                        <Col xs={12} sm={12} md={{offset : 8, span : 2}}>
+                            <Button
+                                variant={"blank"}
+                                className={"btn-user-response"}
+                                onClick={handleUserResponseSubmission}>
+                                Submit
+                            </Button>
+                        </Col>
+                    </Row>
 
-                    <Button
-                        variant={"blank"}
-                        className={"btn-user-response float-end"}
-                        onClick={handleUserResponseSubmission}>
-                        Submit
-                    </Button>
                 </Col>
             }
         </Row>
