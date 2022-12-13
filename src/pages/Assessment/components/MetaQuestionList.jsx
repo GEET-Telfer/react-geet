@@ -72,7 +72,7 @@ export default function MetaQuestionList(props) {
           const now = new Date();
           const data = {
             questions,
-            ttl: now.getTime() + 24 * 60 * 60 * 1000, // ttl: 24 hours
+            ttl: now.getTime() + 30 * 24 * 60 * 60 * 1000, // ttl: 24 hours
           };
 
           localStorage.setItem("assessment-question", JSON.stringify(data));

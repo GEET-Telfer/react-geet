@@ -82,7 +82,7 @@ export const ProgressCtxProvider = ({ children }) => {
   const mapScoreToLabel = (data) => {
     const WARNING = 3, OK = 4;
     const average = data.sum / data.size;
-    console.log(data);
+    
     if(average < WARNING) return "Low";
     else if(WARNING <= average && average < OK) return "Moderate";
     else if(OK <= average) return "High";

@@ -92,6 +92,7 @@ export default function Result(props) {
                             </div>);
                         })
                     }
+                    <br />
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Control type="email" ref={userEmailRef} placeholder="Enter email" />
                         <Form.Text className="text-muted">
