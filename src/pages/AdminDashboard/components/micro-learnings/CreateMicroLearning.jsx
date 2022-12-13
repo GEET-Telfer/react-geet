@@ -23,6 +23,7 @@ export default function CreateMicroLearningModule(props) {
   const [videoLink, setVideoLink] = useState(""); // video link State for updating on UI
 
   const [content, setContent] = useState(); // micro-learning content in HTML string
+  const [courseStatus, setCourseStatus] = useState("draft"); // micro-learning status
 
   // WYSIWYG editor setup
   let editorState = EditorState.createEmpty();
@@ -38,6 +39,7 @@ export default function CreateMicroLearningModule(props) {
       title: titleRef.current,
       video_link: videoLinkRef.current,
       content: content.value,
+      course_status : courseStatus
     };
 
     await axios
@@ -54,6 +56,7 @@ export default function CreateMicroLearningModule(props) {
           setEditorContent(editorState);
           // reset form input
           document.getElementById("create-course-form").reset();
+          setCourseStatus("draft");
         } else {
           alert("Request didn't go through");
         }
@@ -73,7 +76,7 @@ export default function CreateMicroLearningModule(props) {
             delay={3000}
             autohide
           >
-            <Toast.Body>Micro Learning Module Is Added</Toast.Body>
+            <Toast.Body>Microlearning Module Is Added</Toast.Body>
           </Toast>
         </ToastContainer>
       </Row>
@@ -91,7 +94,7 @@ export default function CreateMicroLearningModule(props) {
             }}
           >
             <Col>
-              <Form.Label>MicroLearning Module Title</Form.Label>
+              <Form.Label>Microlearning Module Title</Form.Label>
               <Form.Control as="textarea" rows={2} />
             </Col>
           </Form.Group>
@@ -107,8 +110,25 @@ export default function CreateMicroLearningModule(props) {
             }}
           >
             <Col>
-              <Form.Label>Micro Learning Module Video Link</Form.Label>
+              <Form.Label>Microlearning Module Video Link</Form.Label>
               <Form.Control as="textarea" rows={2} />
+            </Col>
+          </Form.Group>
+
+          {/* Microlearning module status */}
+          <Form.Group as={Row} className="mb-3">
+            <Col xs={12}>
+              <Form.Label>Microlearning Module Status</Form.Label>
+              <Form.Control
+                as={"select"}
+                onChange={(event) => {
+                  setCourseStatus(event.target.value);
+                }}
+              >
+                <option value="draft">Draft</option>
+                <option value="under_review">Under Review</option>
+                <option value="publish">Publish</option>
+              </Form.Control>
             </Col>
           </Form.Group>
 
@@ -123,7 +143,7 @@ export default function CreateMicroLearningModule(props) {
                   height: "400px",
                 }}
               >
-                <Form.Label>Micro Learning Module content</Form.Label>
+                <Form.Label>Microlearning Module content</Form.Label>
 
                 <Editor
                   editorState={editorContent}
@@ -140,7 +160,7 @@ export default function CreateMicroLearningModule(props) {
                   }}
                   editorStyle={{
                     border: "1px solid",
-                    boxShadow: "5px 5px #888888",
+                    // boxShadow: "5px 5px #888888",
                     position: "relative",
                     overflow: "scroll",
                     backgroundColor: "#F5F5F5",

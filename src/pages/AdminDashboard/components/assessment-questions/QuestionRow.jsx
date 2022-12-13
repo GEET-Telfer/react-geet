@@ -82,7 +82,7 @@ export default function QuestionRow(props) {
           {question.scoring}
         </Col> */}
         <Col sx={6} md={2}>
-          {"Draft"}
+          {question.question_status === "draft" ? "Draft" : question.question_status==="under_review" ? "Under Review" : "Publish"}
         </Col>
 
         <Col sx={12} md={2}>

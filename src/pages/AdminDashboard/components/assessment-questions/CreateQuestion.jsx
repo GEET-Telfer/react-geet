@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import RangeSlider from "react-bootstrap-range-slider";
+// import RangeSlider from "react-bootstrap-range-slider";
 import Toast from "react-bootstrap/Toast";
 import ToastContainer from "react-bootstrap/ToastContainer";
 
@@ -20,6 +20,7 @@ export default function CreateQuestion(props) {
     "Commitment to Equity, Diversity and Inclusion"
   ); // default component category
   const [hasNA, setHasNA] = useState(false); // default has Not Avaliable
+  const [questionStatus, setQuestionStatus] = useState("draft");
 
   // Ref
   const descriptionRef = useRef("");
@@ -31,6 +32,7 @@ export default function CreateQuestion(props) {
       description: descriptionRef.current,
       scoring: scoring,
       hasNA: hasNA,
+      question_status : questionStatus
     };
 
     await axios
@@ -46,8 +48,9 @@ export default function CreateQuestion(props) {
           setComponent("Commitment to Equity, Diversity and Inclusion");
           setScoring(5);
           setHasNA(false);
+          setQuestionStatus("draft");
         } else {
-          alert("Request didn't go through");
+          alert("Request didn't go through, please check your inputs");
         }
       })
       .catch((err) => {
@@ -111,7 +114,7 @@ export default function CreateQuestion(props) {
               <Form.Control
                 as={"select"}
                 onChange={(event) => {
-                  // setComponent(event.target.value);
+                  setQuestionStatus(event.target.value);
                 }}
               >
                 <option value="draft">Draft</option>

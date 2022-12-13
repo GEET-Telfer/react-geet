@@ -11,7 +11,7 @@ import MicroLearningModal from "./MicroLearningModal";
 export default function MicroLearningRow(props) {
   const { data } = props;
 
-  const { id, title, video_link, duration, content } = data;
+  const { id, title, video_link, duration, content, uuid, course_status } = data;
 
   const [show, setShow] = useState(true); // toggle on micro-learning row display
   const [modalShow, setModalShow] = useState(false); // toggle on update-course modal
@@ -53,6 +53,8 @@ export default function MicroLearningRow(props) {
     <div className={show ? "d-block" : "d-none"}>
       <MicroLearningModal
         id={id}
+        uuid={uuid}
+        course_status={course_status}
         title={title}
         video_link={video_link}
         content={content}

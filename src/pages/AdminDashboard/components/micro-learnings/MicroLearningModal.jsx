@@ -19,9 +19,11 @@ import { AdminQuestionCtx } from "../../../../context/AdminQuestionContext";
 export default function MicroLearningModal(props) {
   const {
     id,
+    uuid,
     title,
     video_link,
     content,
+    course_status,
     modalShow,
     setModalShow,
     handleModalClose,
@@ -30,6 +32,7 @@ export default function MicroLearningModal(props) {
   // State
   const [titleState, setTitleState] = useState(title); 
   const [videoLinkState, setVideoLinkState] = useState(video_link);
+  const [courseStatus, setCourseStatus] = useState(course_status); // micro-learning status
 
   // Ref
   const titleRef = useRef(title);
@@ -52,9 +55,11 @@ export default function MicroLearningModal(props) {
   const handleCoursenUpdate = async () => {
     let data = {
       id: id,
+      uuid : uuid,
       title: titleRef.current,
       video_link: videoLinkRef.current,
       content: newContent.value,
+      course_status : courseStatus
     };
 
     await axios
@@ -80,7 +85,7 @@ export default function MicroLearningModal(props) {
           {/* micro-learning title */}
           <Form.Group as={Row} className="mb-3">
             <Col>
-              <Form.Label>Micro Learning Module Title</Form.Label>
+              <Form.Label>Microlearning Module Title</Form.Label>
               <Form.Control
                 as="textarea"
                 rows={2}
@@ -96,7 +101,7 @@ export default function MicroLearningModal(props) {
           {/* micro-learning youtube embedded link */}
           <Form.Group as={Row} className="mb-3">
             <Col>
-              <Form.Label>Micro Learning Module Video Link</Form.Label>
+              <Form.Label>Microlearning Module Video Link</Form.Label>
               <Form.Control
                 as="textarea"
                 rows={2}
@@ -106,6 +111,24 @@ export default function MicroLearningModal(props) {
                   videoLinkRef.current = e.target.value; // save the latest link value
                 }}
               />
+            </Col>
+          </Form.Group>
+
+          {/* Microlearning status */}
+          <Form.Group as={Row} className="mb-3">
+            <Col xs={12}>
+              <Form.Label>Microlearning Module Status</Form.Label>
+              <Form.Control
+                as={"select"}
+                defaultValue={courseStatus}
+                onChange={(event) => {
+                  setCourseStatus(event.target.value);
+                }}
+              >
+                <option value="draft">Draft</option>
+                <option value="under_review">Under Review</option>
+                <option value="publish">Publish</option>
+              </Form.Control>
             </Col>
           </Form.Group>
 
@@ -120,7 +143,7 @@ export default function MicroLearningModal(props) {
                   height: "400px",
                 }}
               >
-                <Form.Label>Micro Learning Module content</Form.Label>
+                <Form.Label>Microlearning Module content</Form.Label>
 
                 <Editor
                   editorState={updatedContent}
@@ -137,7 +160,7 @@ export default function MicroLearningModal(props) {
                   }}
                   editorStyle={{
                     border: "1px solid",
-                    boxShadow: "5px 5px #888888",
+                    // boxShadow: "5px 5px #888888",
                     position: "relative",
                     overflow: "scroll",
                     backgroundColor: "#F5F5F5",

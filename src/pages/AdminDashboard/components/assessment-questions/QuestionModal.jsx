@@ -9,7 +9,7 @@ import { AdminQuestionCtx } from "../../../../context/AdminQuestionContext";
  */
 export default function QuestionModal(props) {
   const { modalShow, setModalShow, handleModalClose, question } = props;
-  const { id, component, description, has_NA, scoring } = question;
+  const { id, component, description, has_NA, scoring, uuid, question_status } = question;
 
   // Context
   const { needUpdate, setNeedUpdate, setShowEdit } =
@@ -18,6 +18,7 @@ export default function QuestionModal(props) {
   // State
   const [scoring_, setScoring] = useState(scoring);
   const [hasNA, setHasNA] = useState(has_NA === "1");
+  const [questionStatus, setQuestionStatus] = useState(question_status);
 
   // Ref
   const descriptionRef = useRef(description);
@@ -26,10 +27,12 @@ export default function QuestionModal(props) {
     // collect updated question data
     const data = {
       id: id,
+      uuid : uuid,
       component: component,
       description: descriptionRef.current,
       scoring: scoring_,
       hasNA: hasNA,
+      question_status : questionStatus
     };
     // submit update request
     axios
@@ -44,7 +47,7 @@ export default function QuestionModal(props) {
           setShowEdit(true);
           setModalShow(false);
         } else {
-          alert("Request didn't go through");
+          alert("Request didn't go through, please check your inputs");
         }
       })
       .catch((err) => {
@@ -86,8 +89,9 @@ export default function QuestionModal(props) {
               <Form.Label>Statement Status</Form.Label>
               <Form.Control
                 as={"select"}
+                defaultValue={questionStatus}
                 onChange={(event) => {
-                  // setComponent(event.target.value);
+                  setQuestionStatus(event.target.value);
                 }}
               >
                 <option value="draft">Draft</option>
