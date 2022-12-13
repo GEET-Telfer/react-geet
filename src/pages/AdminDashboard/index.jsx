@@ -9,6 +9,7 @@ import {
   ViewQuestions,
   CreateMicroLearningModule,
   ViewMicroLearnings,
+  ViewUserResponse
 } from "./components";
 
 import { useWindowDimensions } from "../../hooks";
@@ -26,6 +27,7 @@ export default function AdminDashboard() {
     "assessment-create",
     "micro-learning-view",
     "micro-learning-create",
+    "user-response-view"
   ];
   const { width } = useWindowDimensions();
 
@@ -76,6 +78,15 @@ export default function AdminDashboard() {
                   Create
                 </NavDropdown.Item>
               </NavDropdown>
+              {/* User response view */}
+              <NavDropdown
+                title="User Response"
+                id="nav-dropdown-user-response"
+              >
+                <NavDropdown.Item eventKey="user-response-view">
+                  Export
+                </NavDropdown.Item>
+              </NavDropdown>
             </Nav>
           </Col>
           {/* Admin pandel content, which is toggled by dropdown buttons */}
@@ -90,6 +101,8 @@ export default function AdminDashboard() {
               )}
 
               {activeKey === "micro-learning-view" && <ViewMicroLearnings />}
+
+              {activeKey === "user-response-view" && <ViewUserResponse />}
             </Container>
           </Col>
         </Row>
