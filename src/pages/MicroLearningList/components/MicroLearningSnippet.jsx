@@ -6,7 +6,7 @@ import { Col, Row, Stack, Ratio } from "react-bootstrap";
 export default function MicroLearningSnippet(props) {
   const { data } = props;
 
-  const { id, title, video_link, duration, content } = data;
+  const { uuid, title, video_link, content } = data;
 
   return (
     <Row className={"mb-5 ml-2 snippet"}>
@@ -23,7 +23,7 @@ export default function MicroLearningSnippet(props) {
         <Stack className="ml-2" gap={2}>
           <div className="mb-2">
             <a
-              href={`${process.env.REACT_APP_HOST}/${process.env.REACT_APP_MICRO_LEARNING_MODULE_ROUTE}?id=${id}`}
+              href={`${process.env.REACT_APP_HOST}/${process.env.REACT_APP_MICRO_LEARNING_MODULE_ROUTE}?id=${uuid}`}
             >
               <h3>{title}</h3>
             </a>

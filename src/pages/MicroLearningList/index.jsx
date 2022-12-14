@@ -42,7 +42,7 @@ export default function MicroLearningList(props) {
         {Object.keys(courseList).map((index) => {
           return (
             <MicroLearningSnippet
-              key={courseList[index].id}
+              key={courseList[index].uuid}
               data={courseList[index]}
             />
           );

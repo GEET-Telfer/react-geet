@@ -1,5 +1,5 @@
 import { Row, Col, Ratio, Stack } from "react-bootstrap";
-import Article from "../../MicroLearning/components/Article";
+// import Article from "../../MicroLearning/components/Article";
 /**
  * Assessment Snippet in MicroLearning Directory
  */

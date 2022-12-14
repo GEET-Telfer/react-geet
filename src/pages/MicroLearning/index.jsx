@@ -2,7 +2,7 @@ import { Fragment, useEffect, useState } from "react";
 import { Video, Article } from "./components";
 import axios from "axios";
 import { Container } from "react-bootstrap";
-import { useWindowDimensions } from "../../hooks";
+// import { useWindowDimensions } from "../../hooks";
 import Header from "../../components/Header";
 import geetLogo from "../../assets/geet-logo-large.png";
 
@@ -16,7 +16,7 @@ export default function MicroLearning(props) {
 
   const [course, setCourse] = useState(); // micro-learning information
 
-  const { width } = useWindowDimensions(); // width of the box-size
+  // const { width } = useWindowDimensions(); // width of the box-size
 
   useEffect(() => {
     // fetch micro-learning information based on id
