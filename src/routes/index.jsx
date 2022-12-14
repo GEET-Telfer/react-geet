@@ -3,6 +3,7 @@ import { Routes } from "react-router-dom";
 import AdminDashboardRoute from "./AdminDashboardRoute";
 import AssessmentRoute from "./AssessmentRoute";
 import MicroLearningRoute from "./MicroLearningRoute";
+import ResourceRoute from "./ResourceRoute";
 
 
 export default function Router() {
@@ -11,6 +12,7 @@ export default function Router() {
             { AssessmentRoute }
             { AdminDashboardRoute }
             { MicroLearningRoute }
+            { ResourceRoute }
         </Routes>
     );
 }
