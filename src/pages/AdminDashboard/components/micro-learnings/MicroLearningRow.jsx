@@ -34,6 +34,7 @@ export default function MicroLearningRow(props) {
       axios
         .post(`${process.env.REACT_APP_GATEWAY_ENDPOINT}/admin/course/delete`, {
           id: id,
+          uuid : uuid,
         })
         .then((res) => {
           if (res.status === 200) {
@@ -69,7 +70,7 @@ export default function MicroLearningRow(props) {
         setModalShow={setShowConfirmationModal}
       />
 
-      <Row className={"mb-3 snippet"}>
+      <Row className={"mt-3 mb-3 snippet"}>
         {/* embedded video */}
         <Col xs={12} md={4}>
           <Ratio aspectRatio={"4x3"}>
@@ -87,7 +88,7 @@ export default function MicroLearningRow(props) {
               <a
                 href={`${process.env.REACT_APP_HOST}/${process.env.REACT_APP_MICRO_LEARNING_MODULE_ROUTE}?id=${id}`}
               >
-                <h4>{title}</h4>
+                <h4>{title}{`(${course_status})`}</h4>
               </a>
               {/* <small>Estimation: {duration || "15 minutes"}</small> */}
             </div>
