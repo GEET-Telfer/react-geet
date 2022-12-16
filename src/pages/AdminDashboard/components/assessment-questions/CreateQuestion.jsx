@@ -54,7 +54,8 @@ export default function CreateQuestion(props) {
         }
       })
       .catch((err) => {
-        console.error(err);
+        // console.error(err);
+        alert(`Error: ${err?.response?.data}`);
       });
   };
 
