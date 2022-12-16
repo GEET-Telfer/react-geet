@@ -42,7 +42,7 @@ export default function MicroLearning(props) {
       
       <img className={"sticky-icon"} src={geetLogo} alt="GEET LOGO" />
 
-      <Container fluid="true" className={"mt-5"}>
+      <Container fluid="true" className={"mt-5"} style={{minHeight : "65vh"}}>
         {/* <h1 align="center">{course?.title}</h1> */}
         <Video title={course?.title} videoSrc={course?.video_link} />
         <Article content={course?.content} />

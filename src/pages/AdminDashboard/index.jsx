@@ -49,8 +49,8 @@ export default function AdminDashboard() {
       <Header breadcrumbItems={breadcrumbItems} title={"Admin Dashboard"} />
       
       <img className={"sticky-icon"} src={geetLogo} alt="GEET LOGO" />
-
-      <Container fuild="true" style={{ width: width }}>
+      
+      <Container fuild="true" style={{ width: width, minHeight : "60vh" }}>
         <Row className={"element-control"}>
           {/* Nav dropdown control on Admin pandel display */}
           <Col sx={{ span: 2 }} md={{ span: 2 }}>

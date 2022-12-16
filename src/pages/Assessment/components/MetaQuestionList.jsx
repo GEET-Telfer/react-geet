@@ -121,10 +121,7 @@ export default function MetaQuestionList(props) {
   };
 
   return (
-    <Row
-      className="justify-content-md-center mt-3"
-      style={{minHeight : "80vh"}}
-    >
+    <Row  className="justify-content-md-center mt-3" style={{minHeight : "65vh"}}>
       <Col
         xs={0}
         sm={0}

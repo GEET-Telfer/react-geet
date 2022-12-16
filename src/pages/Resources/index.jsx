@@ -23,7 +23,7 @@ export default function Resources() {
             <img className={"sticky-icon"} src={geetLogo} alt="GEET LOGO" />
 
             <Container
-            style={{height : "85vh"}}>
+            style={{height : "65vh"}}>
                 <span><b>Case Vignettes</b></span>
                 <hr />
                 <ul>

@@ -36,7 +36,7 @@ export default function MicroLearningList(props) {
 
       <img className={"sticky-icon"} src={geetLogo} alt="GEET LOGO" />
 
-      <Container fluid="true">
+      <Container fluid="true" style={{minHeight : "65vh"}}>
         <Intro />
 
         {Object.keys(courseList).map((index) => {

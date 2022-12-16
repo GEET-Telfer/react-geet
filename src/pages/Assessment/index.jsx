@@ -38,7 +38,7 @@ export default function Asssessment() {
         )}
       </Container>
       </div>
-      <Container align="center" className={"container-result"} fluid={"xxl"}>
+      <Container align="center" className={"container-result"} fluid={"true"}>
         {consent && complete && (
           <Result
             hasConsent={consent}

@@ -61,8 +61,8 @@ export default function Result(props) {
     }
 
     return (
-        <Row xs={12} sm={12} 
-        style={{marginLeft: 0.2 * width, width : 0.45 * width, marginRight: 0.2 * width}}> 
+        <Row xs={12} sm={12} style={{minHeight : "65vh"}}> 
+            <Col md={3}></Col>
             <ToastContainer className="p-3" position={"middle-center"}>
                 <Toast
                     onClose={() => setShowFeedbackSent(false)}
@@ -121,6 +121,7 @@ export default function Result(props) {
 
                 </Col>
             }
+            <Col md={3}></Col>
         </Row>
     )
 }

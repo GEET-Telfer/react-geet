@@ -22,102 +22,32 @@ input[type="radio"] {
   width: 130px !important;
 }
 #Commitment {
-  border: 1px solid black;
-  border-color: #633C99 !important;
-  background-color: whitesmoke !important;
-  color: #633C99 !important;
-}
-#Commitment:hover {
-  background-color: #633C99 !important;
-  color: whitesmoke !important;
-}
-#Commitment:focus {
-  background-color: #633C99 !important;
-  color: whitesmoke !important;
+  background-color: #633C99;
+  color: whitesmoke;
 }
 #Expertise {
-  border: 1px solid black;
-  border-color: #5BBE79 !important;
-  background-color: whitesmoke !important;
-  color: #5BBE79 !important;
-}
-#Expertise:hover {
-  background-color: #5BBE79 !important;
-  color: whitesmoke !important;
-}
-#Expertise:focus {
-  background-color: #5BBE79 !important;
-  color: whitesmoke !important;
+  background-color: #5BBE79;
+  color: whitesmoke;
 }
 #Resources {
-  border: 1px solid black;
-  border-color: #68C0E9 !important;
-  background-color: whitesmoke !important;
-  color: #68C0E9 !important;
-}
-#Resources:hover {
-  background-color: #68C0E9 !important;
-  color: whitesmoke !important;
-}
-#Resources:focus {
-  background-color: #68C0E9 !important;
-  color: whitesmoke !important;
+  background-color: #68C0E9;
+  color: whitesmoke;
 }
 #Design {
-  border: 1px solid black;
-  border-color: #F250A7 !important;
-  background-color: whitesmoke !important;
-  color: #F250A7 !important;
-}
-#Design:hover {
-  background-color: #F250A7 !important;
-  color: whitesmoke !important;
-}
-#Design:focus {
-  background-color: #F250A7 !important;
-  color: whitesmoke !important;
+  background-color: #F250A7;
+  color: whitesmoke;
 }
 #Development {
-  border: 1px solid black;
-  border-color: #A8D46F !important;
-  background-color: whitesmoke !important;
-  color: #A8D46F !important;
-}
-#Development:hover {
-  background-color: #A8D46F !important;
-  color: whitesmoke !important;
-}
-#Development:focus {
-  background-color: #A8D46F !important;
-  color: whitesmoke !important;
+  background-color: #A8D46F;
+  color: whitesmoke;
 }
 #Delivery {
-  border: 1px solid black;
-  border-color: #F8AD56 !important;
-  background-color: whitesmoke !important;
-  color: #F8AD56 !important;
-}
-#Delivery:hover {
-  background-color: #F8AD56 !important;
-  color: whitesmoke !important;
-}
-#Delivery:focus {
-  background-color: #F8AD56 !important;
-  color: whitesmoke !important;
+  background-color: #F8AD56;
+  color: whitesmoke;
 }
 #Evaluation {
-  border: 1px solid black;
-  border-color: #4D93C9 !important;
-  background-color: whitesmoke !important;
-  color: #4D93C9 !important;
-}
-#Evaluation:hover {
-  background-color: #4D93C9 !important;
-  color: whitesmoke !important;
-}
-#Evaluation:focus {
-  background-color: #4D93C9 !important;
-  color: whitesmoke !important;
+  background-color: #4D93C9;
+  color: whitesmoke;
 }
 .show {
   display: block;
