@@ -25,7 +25,7 @@ export default function Asssessment() {
       <img className={"sticky-icon"} src={geetLogo} alt="GEET LOGO" />
 
       <div>
-      <Container align="center" className={"container-result"} fluid={"xxl"}>
+      <Container align="center" className={"container-result"} fluid="true">
         {!consent && (
           <Instruction hasConsent={consent} setConsent={setConsent} />
         )}

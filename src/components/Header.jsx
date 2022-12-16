@@ -8,7 +8,7 @@ export default function Header(props) {
   const { breadcrumbItems, title } = props;
 
   return (
-    <div className={"breadcrumb-header"}>
+    <div className={"breadcrumb-header mb-3"}>
       <Container>
         <Row>
           <Col md={1} align="center">

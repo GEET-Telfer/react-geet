@@ -18,6 +18,15 @@ const componentDescriptions = {
   Evaluation: `Degree to which feedback (monitoring and evaluation data) informs programs and courses.Program evaluators`,
 };
 
+const componentMap = {
+  Commitment : "Commitment to Equity, Diversity and Inclusion",
+  Expertise : "Gender Expertise",
+  Resources : "Access to Resources",
+  Design : "Program Design",
+  Development : "Program Development",
+  Delivery : "Program Delivery",
+  Evaluation : "Program Evaluation"
+}
 /**
  * Entry point for assessment questions, which fetches and saves assessment questions to LocalStoarge
  * The MetaQuestionList is composed of toggle buttons for question list and question lists.
@@ -106,20 +115,20 @@ export default function MetaQuestionList(props) {
     for (const key of toggleQuestions) {
       const target_ele = document.getElementsByClassName(key);
       key !== id
-        ? target_ele[0].classList.add("hide")
-        : target_ele[0].classList.remove("hide");
+        ? target_ele[0].classList.add("d-md-none")
+        : target_ele[0].classList.remove("d-md-none");
     }
   };
 
   return (
     <Row
       className="justify-content-md-center mt-3"
-      style={{ width: 0.8 * width }}
+      style={{minHeight : "85vh"}}
     >
       <Col
-        sm={{ offset: 2, span: 2 }}
+        xs={0}
+        sm={0}
         md={{ offset: 2, span: 2 }}
-        lg={{ offset: 2, span: 2 }}
       >
         <QuestionButton
           key={"instruction"}
@@ -144,13 +153,13 @@ export default function MetaQuestionList(props) {
         {Object.keys(questions).map((key) => {
           return (
             <div
-              className={`${key} ${key === "Instruction" ? "" : "hide"} `}
+              className={`${key} ${key === "Instruction" ? "" : "d-md-none"} `}
               key={key}
             >
-              <h1 className={"mb-3"} align="center">
-                {key}
-              </h1>
-              <h6 className={"mb-3"} align="left">
+              <h2 className={"mb-3"} align="center">
+                {componentMap[key]}
+              </h2>
+              <h6 className={"mb-3"} align="center">
                 {componentDescriptions[key]}
               </h6>
               <hr />
@@ -159,6 +168,7 @@ export default function MetaQuestionList(props) {
           );
         })}
       </Col>
+      <Col sm={0} sx={0} md={2}></Col>
     </Row>
   );
 }
