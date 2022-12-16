@@ -47,7 +47,11 @@ export default function Result(props) {
                 if(res.status === 200) {
                     setShowFeedbackSent(true);
                 } 
-            }).catch(console.error);
+            }).catch((err) => {
+                // console.log(err);
+                let ttl = err.response.data.message.split(":")[1];
+                alert(`Please try again after ${ttl} seconds`)
+            });
 
         userEmailRef.current.value = "";
     }

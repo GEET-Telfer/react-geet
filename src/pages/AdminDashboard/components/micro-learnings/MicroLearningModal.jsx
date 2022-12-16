@@ -75,6 +75,9 @@ export default function MicroLearningModal(props) {
         } else {
           alert("Request didn't go through");
         }
+      }).catch((err) => {
+        // console.log(err);
+        alert(`Error: ${err?.response?.data}`);
       });
   };
 
